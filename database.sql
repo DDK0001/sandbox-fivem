@@ -349,6 +349,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `DrugStates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `Inventory` longtext DEFAULT NULL,
   `CasinoChips` LONGTEXT DEFAULT NULL,
+  `LSUNDGInviter` JSON DEFAULT NULL,
   PRIMARY KEY (`SID`) USING BTREE,
   CONSTRAINT `Origin` CHECK (json_valid(`Origin`)),
   CONSTRAINT `Apps` CHECK (json_valid(`Apps`)),
@@ -374,8 +375,10 @@ CREATE TABLE IF NOT EXISTS `characters` (
   CONSTRAINT `Status` CHECK (json_valid(`Status`)),
   CONSTRAINT `Parole` CHECK (json_valid(`Parole`)),
   CONSTRAINT `DrugStates` CHECK (json_valid(`DrugStates`)),
-  CONSTRAINT `CasinoChips` CHECK (json_valid(`CasinoChips`))
+  CONSTRAINT `CasinoChips` CHECK (json_valid(`CasinoChips`)),
+  CONSTRAINT `LSUNDGInviter` CHECK (json_valid(`LSUNDGInviter`))
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
 
 DROP TABLE IF EXISTS `character_app_profiles`;
 CREATE TABLE IF NOT EXISTS `character_app_profiles` (
