@@ -164,7 +164,7 @@ exports('Sentence', function(source, target, duration)
 			exports['sandbox-jobs']:DutyOff(target, Player(target).state.onDuty)
 			exports['sandbox-police']:UncuffTarget(-1, target)
 			exports['sandbox-ped']:MaskUnequipNoItem(target)
-			exports['ox_inventory']:HoldingPut(target)
+			exports.ox_inventory:HoldingPut(target)
 		end)
 
 		TriggerClientEvent("Jail:Client:Jailed", target)
