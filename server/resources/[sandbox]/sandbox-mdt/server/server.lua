@@ -640,16 +640,18 @@ AddEventHandler("MDT:Server:RegisterCallbacks", function()
 		end
 	end)
 
-	exports["sandbox-base"]:RegisterServerCallback("MDT:OpenEvidenceLocker", function(source, caseNum, cb)
-		local myDuty = Player(source).state.onDuty
-		if myDuty and (myDuty == "police" or myDuty == "government") then
-			exports["sandbox-base"]:ClientCallback(source, "Inventory:Compartment:Open", {
-				invType = 44,
-				owner = ("evidencelocker:%s"):format(caseNum),
-			}, function()
-				exports.ox_inventory:OpenSecondary(source, 44, ("evidencelocker:%s"):format(caseNum))
-			end)
-		end
+	exports["sandbox-base"]:RegisterServerCallback("MDT:OpenEvidenceLocker", function(source, reportId, cb)
+	    local char = exports['sandbox-characters']:FetchCharacterSource(source)
+	    if char and (
+	        exports['sandbox-jobs']:HasJob(source, 'police', nil, nil, nil, true) or
+	        exports['sandbox-jobs']:HasJob(source, 'ems', nil, nil, nil, true) or
+	        exports['sandbox-jobs']:HasJob(source, 'prison', nil, nil, nil, true)
+	    ) then
+	        exports.ox_inventory:forceOpenInventory(source, 'policeevidence', reportId)
+	        cb(true)
+	    else
+	        cb(false)
+	    end
 	end)
 
 	exports["sandbox-base"]:RegisterServerCallback("MDT:OpenPersonalLocker", function(source, data, cb)
