@@ -388,7 +388,7 @@ function RegisterCallbacks()
                     vehLimit = 0
                 end
 
-                if Vehicles.Owned.Properties:GetCount(data.storageId, vehicle:GetData('VIN')) < vehLimit then
+                if exports['sandbox-vehicles']:OwnedPropertiesGetCount(data.storageId, vehicle:GetData('VIN')) < vehLimit then
                     exports['sandbox-vehicles']:OwnedStore(data.VIN, 2, data.storageId, function(success)
                         cb(success)
                     end)
