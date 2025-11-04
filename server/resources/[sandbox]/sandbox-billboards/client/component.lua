@@ -1,6 +1,16 @@
 AddEventHandler('onClientResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
-		Wait(10000)
+		Wait(1000)
+		-- print('testing biatch')
+		-- local dui = CreateBillboardDUI('https://i.imgur.com/Zlf40QZ.png', 1024, 512)
+		-- AddReplaceTexture('ch2_03b_cg2_03b_bb', 'ch2_03b_bb_lowdown', dui.dictionary, dui.texture)
+
+		-- Wait(10000)
+
+		-- print(dui.id)
+
+		-- ReleaseBillboardDUI(dui.id)
+		-- RemoveReplaceTexture('ch2_03b_cg2_03b_bb', 'ch2_03b_bb_lowdown')
 		StartUp()
 	end
 end)
