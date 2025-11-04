@@ -5,51 +5,51 @@ PALETO_RESET_TIME = 60 * 60 * 8
 
 _pbDoorsGarbage = {
 	{
-		doorId = "bank_savings_paleto_corridor_1",
+		doorId = "sandbox_bank_savings_paleto_corridor_1",
 		label = "Tellers",
 		requireCode = false,
 		data = {
 			id = 1,
-			door = "bank_savings_paleto_corridor_1",
+			door = "sandbox_bank_savings_paleto_corridor_1",
 		},
 	},
 	{
-		doorId = "bank_savings_paleto_corridor_2",
+		doorId = "sandbox_bank_savings_paleto_corridor_2",
 		label = "Security Hallway",
 		requireCode = false,
 		data = {
 			id = 2,
-			door = "bank_savings_paleto_corridor_2",
+			door = "sandbox_bank_savings_paleto_corridor_2",
 		},
 	},
 	{
-		doorId = "bank_savings_paleto_office_1",
+		doorId = "sandbox_bank_savings_paleto_office_1",
 		label = "Office #1",
 		requireCode = true,
 		data = {
 			id = 3,
 			officeId = 1,
-			door = "bank_savings_paleto_office_1",
+			door = "sandbox_bank_savings_paleto_office_1",
 		},
 	},
 	{
-		doorId = "bank_savings_paleto_office_2",
+		doorId = "sandbox_bank_savings_paleto_office_2",
 		label = "Office #2",
 		requireCode = true,
 		data = {
 			id = 4,
 			officeId = 2,
-			door = "bank_savings_paleto_office_2",
+			door = "sandbox_bank_savings_paleto_office_2",
 		},
 	},
 	{
-		doorId = "bank_savings_paleto_office_3",
+		doorId = "sandbox_bank_savings_paleto_office_3",
 		label = "Office #3",
 		requireCode = true,
 		data = {
 			id = 5,
 			officeId = 3,
-			door = "bank_savings_paleto_office_3",
+			door = "sandbox_bank_savings_paleto_office_3",
 		},
 	},
 }
@@ -121,7 +121,7 @@ _pbHackPoints = {
 	{
 		coords = vector3(-102.342, 6463.234, 31.634),
 		heading = 224.469,
-		door = "bank_savings_paleto_vault",
+		door = "sandbox_bank_savings_paleto_vault",
 		requiredDoors = {},
 	},
 }
@@ -130,13 +130,13 @@ _pbDoorThermite = {
 	{
 		coords = vector3(-97.33757, 6475.071, 31.50123),
 		heading = 136.012,
-		door = "bank_savings_paleto_back_1",
+		door = "sandbox_bank_savings_paleto_back_1",
 		requiredDoors = {},
 	},
 	{
 		coords = vector3(-118.7633, 6477.372, 31.57678),
 		heading = 221.941,
-		door = "bank_savings_paleto_back_2",
+		door = "sandbox_bank_savings_paleto_back_2",
 		requiredDoors = {},
 		requireExploit = false,
 	},
@@ -148,7 +148,7 @@ _pbSecurityPower = {
 		heading = 137.899,
 		powerId = 1,
 		requiredDoors = {
-			"bank_savings_paleto_back_2",
+			"sandbox_bank_savings_paleto_back_2",
 		},
 		ptfx = {
 			vector3(-118.3559, 6470.742, 32.59674),
@@ -160,7 +160,7 @@ _pbSecurityPower = {
 		heading = 319.835,
 		powerId = 2,
 		requiredDoors = {
-			"bank_savings_paleto_back_1",
+			"sandbox_bank_savings_paleto_back_1",
 		},
 		ptfx = {
 			vector3(-92.68832, 6469.708, 32.62043),

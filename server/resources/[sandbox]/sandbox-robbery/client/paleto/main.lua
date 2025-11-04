@@ -110,14 +110,14 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 32.84,
 		options = {
 			{
-				icon = "phone",
+				icon = "fas fa-lock",
 				label = "Secure Bank",
 				event = "Robbery:Client:Paleto:StartSecuring",
 				groups = { "police" },
 				canInteract = PaletoNeedsReset,
 			},
 			{
-				icon = "bell-on",
+				icon = "fas fa-bell",
 				label = "Disable Alarm",
 				event = "Robbery:Client:Paleto:DisableAlarm",
 				groups = { "police" },
@@ -138,7 +138,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 32.43,
 		options = {
 			{
-				icon = "bell-on",
+				icon = "fas fa-bell",
 				label = "Access Door Controls",
 				event = "Robbery:Client:Paleto:Doors",
 				canInteract = function()
@@ -159,7 +159,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 32.43,
 		options = {
 			{
-				icon = "binary-lock",
+				icon = "fas fa-network-wired",
 				label = "Breach Network",
 				items = {
 					{
@@ -192,7 +192,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "binary-lock",
+					icon = "fas fa-network-wired",
 					label = "Upload Exploit",
 					items = {
 						{
@@ -230,7 +230,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "terminal",
+					icon = "fas fa-terminal",
 					label = "Hack Power Interface",
 					item = "adv_electronics_kit",
 					onSelect = function()
@@ -271,7 +271,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "bore-hole",
+					icon = "fas fa-drill",
 					label = "Use Drill",
 					item = "drill",
 					onSelect = function()
@@ -300,7 +300,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 32.83,
 		options = {
 			{
-				icon = "unlock",
+				icon = "fas fa-unlock",
 				label = "Crack Safe",
 				event = "Robbery:Client:Paleto:Safe",
 				item = "paleto_access_codes",
@@ -324,7 +324,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "magnifying-glass",
+					icon = "fas fa-magnifying-glass",
 					label = "Search",
 					onSelect = function()
 						TriggerEvent("Robbery:Client:Paleto:Search", v.data)
@@ -360,7 +360,7 @@ AddEventHandler("Polyzone:Enter", function(id, testedPoint, insideZones, data)
 		exports.ox_target:addModel(GetHashKey("xm_prop_base_staff_desk_02"), {
 			{
 				label = "Upload Exploit",
-				icon = "terminal",
+				icon = "fas fa-terminal",
 				onSelect = function()
 					TriggerEvent("Robbery:Client:Paleto:Upload", data)
 				end,

@@ -117,7 +117,7 @@ function RegisterPBItems()
 													250.0
 												)
 
-												exports['ox_doorlock']:SetLock("bank_savings_paleto_gate", false)
+												exports['ox_doorlock']:SetLock("sandbox_bank_savings_paleto_gate", false)
 												exports['sandbox-cctv']:StateGroupOffline("paleto")
 											else
 												exports["sandbox-sounds"]:PlayLocation(
@@ -127,7 +127,7 @@ function RegisterPBItems()
 													"power_small_complete_off.ogg",
 													0.1
 												)
-												exports['ox_doorlock']:SetLock("bank_savings_paleto_gate", true)
+												exports['ox_doorlock']:SetLock("sandbox_bank_savings_paleto_gate", true)
 												exports['sandbox-cctv']:StateGroupOnline("paleto")
 											end
 
@@ -296,7 +296,7 @@ function RegisterPBItems()
 						end
 					end
 
-					if exports['ox_doorlock']:IsLocked("bank_savings_paleto_security") then
+					if exports['ox_doorlock']:IsLocked("sandbox_bank_savings_paleto_security") then
 						for k, v in ipairs(_pbSecurityPower) do
 							if #(v.coords - myCoords) <= 1.5 then
 								if AreRequirementsUnlocked(v.requiredDoors) then
@@ -373,15 +373,13 @@ function RegisterPBItems()
 														"securityPower"
 													)
 
-													if IsSecurityAccessible() then
-														exports['ox_doorlock']:SetLock("bank_savings_paleto_security",
-															false)
-													else
-														exports['ox_doorlock']:SetLock("bank_savings_paleto_security",
-															true)
-													end
-
-													GlobalState["Fleeca:Disable:savings_paleto"] = true
+												if IsSecurityAccessible() then
+													exports['ox_doorlock']:SetLock("sandbox_bank_savings_paleto_security",
+														false)
+												else
+													exports['ox_doorlock']:SetLock("sandbox_bank_savings_paleto_security",
+														true)
+												end													GlobalState["Fleeca:Disable:savings_paleto"] = true
 													if not _pbAlerted or os.time() > _pbAlerted then
 														exports['sandbox-robbery']:TriggerPDAlert(
 															source,

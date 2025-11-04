@@ -13,7 +13,7 @@ AddEventHandler('onClientResourceStart', function(resource)
 				25.0,
 				{
 					{
-						icon = "hand",
+						icon = "fas fa-hand-paper",
 						text = "Pickup Items",
 						event = "Robbery:Client:PickupItems",
 					},

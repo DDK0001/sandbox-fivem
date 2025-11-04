@@ -31,7 +31,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 				maxZ = bankData.reset.options.maxZ,
 				options = {
 					{
-						icon = "phone",
+						icon = "fas fa-lock",
 						label = "Secure Bank",
 						groups = { "police" },
 						onSelect = function()
@@ -193,7 +193,7 @@ function SetupFleecaVaults(bankData)
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "bore-hole",
+					icon = "fas fa-drill",
 					label = "Use Drill",
 					item = "drill",
 					onSelect = function()
