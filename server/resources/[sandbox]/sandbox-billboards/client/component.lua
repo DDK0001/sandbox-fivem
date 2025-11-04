@@ -11,7 +11,6 @@ AddEventHandler('onClientResourceStart', function(resource)
 
 		-- ReleaseBillboardDUI(dui.id)
 		-- RemoveReplaceTexture('ch2_03b_cg2_03b_bb', 'ch2_03b_bb_lowdown')
-
 		StartUp()
 	end
 end)
