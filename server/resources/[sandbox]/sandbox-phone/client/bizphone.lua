@@ -58,7 +58,7 @@ function CreateBizPhones()
                 end,
             },
             {
-                icon = "phone-arrow-up-right",
+                icon = "phone",
                 label = "Make Call",
                 event = "Phone:Client:MakeBizCall",
                 onSelect = function()
@@ -100,7 +100,7 @@ function CreateBizPhones()
                 end,
             },
             {
-                icon = "phone-hangup",
+                icon = "phone",
                 label = "Hang Up",
                 onSelect = function()
                     TriggerEvent("Phone:Client:DeclineBizCall", { id = v.id })
