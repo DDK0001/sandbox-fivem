@@ -26,8 +26,8 @@ end
 function IsLBPowerDisabled()
 	for k, v in ipairs(_lbPowerBoxes) do
 		if
-			not GlobalState[string.format("Lombank:Power:%s", data.boxId)]
-			or GetCloudTimeAsInt() > GlobalState[string.format("Lombank:Power:%s", data.boxId)]
+			not GlobalState[string.format("Lombank:Power:%s", v.data.boxId)]
+			or GetCloudTimeAsInt() > GlobalState[string.format("Lombank:Power:%s", v.data.boxId)]
 		then
 			return false
 		end
@@ -52,7 +52,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 	}, {
 		isDeath = true,
 		tpCoords = vector3(-291.188, -2406.996, 6.901),
-		door = "coke_garage",
+		door = "sandbox_coke_garage",
 	})
 
 	exports['sandbox-polyzone']:CreatePoly("bank_lombank", {
@@ -80,7 +80,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 	}, {
 		isDeath = true,
 		tpCoords = vector3(2.593, -935.504, 29.905),
-		door = "lombank_hidden_entrance",
+		door = "sandbox_lombank_hidden_entrance",
 	})
 
 	exports.ox_target:addBoxZone({
@@ -93,7 +93,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 30.7,
 		options = {
 			{
-				icon = "phone",
+				icon = "fas fa-lock",
 				label = "Secure Bank",
 				event = "Robbery:Client:Lombank:StartSecuring",
 				groups = { "police" },
@@ -110,7 +110,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 	}, {
 		isDeath = true,
 		tpCoords = vector3(2.593, -935.504, 29.905),
-		door = "lombank_lasers",
+		door = "sandbox_lombank_lasers",
 	})
 
 	for k, v in ipairs(_lombankRooms) do
@@ -133,30 +133,30 @@ AddEventHandler("Robbery:Client:Setup", function()
 			options = v.isThermite
 				and {
 					{
-						icon = "fire",
+						icon = "fas fa-fire",
 						label = "Use Thermite",
 						item = "thermite",
 						onSelect = function()
 							TriggerEvent("Robbery:Client:Lombank:ElectricBox:Thermite", v.data)
 						end,
 						canInteract = function(data)
-							return not GlobalState[string.format("Lombank:Power:%s", data.boxId)]
+							return not GlobalState[string.format("Lombank:Power:%s", v.data.boxId)]
 								or GetCloudTimeAsInt()
-								> GlobalState[string.format("Lombank:Power:%s", data.boxId)]
+								> GlobalState[string.format("Lombank:Power:%s", v.data.boxId)]
 						end,
 					},
 				}
 				or {
 					{
-						icon = "terminal",
+						icon = "fas fa-terminal",
 						label = "Hack Power Interface",
 						item = "adv_electronics_kit",
 						onSelect = function()
 							TriggerEvent("Robbery:Client:Lombank:ElectricBox:Hack", v.data)
 						end,
 						canInteract = function(data)
-							return not GlobalState[string.format("Lombank:Power:%s", data.boxId)]
-								or GetCloudTimeAsInt() > GlobalState[string.format("Lombank:Power:%s", data.boxId)]
+							return not GlobalState[string.format("Lombank:Power:%s", v.data.boxId)]
+								or GetCloudTimeAsInt() > GlobalState[string.format("Lombank:Power:%s", v.data.boxId)]
 						end,
 					},
 				}
@@ -174,7 +174,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "bore-hole",
+					icon = "fas fa-drill",
 					label = "Use Drill",
 					item = "drill",
 					onSelect = function()
@@ -218,9 +218,9 @@ AddEventHandler("Polyzone:Enter", function(id, testedPoint, insideZones, data)
 			exports.ox_target:addModel(v, {
 				{
 					label = "Grab Loot",
-					icon = "hand",
-					onSelect = function()
-						TriggerEvent("Robbery:Client:Lombank:LootCart", data.roomId)
+					icon = "fas fa-hand-paper",
+					onSelect = function(entity)
+						TriggerEvent("Robbery:Client:Lombank:LootCart", entity, data.roomId)
 					end,
 					distance = 2.0,
 					canInteract = function(d, entity)
@@ -285,22 +285,22 @@ AddEventHandler("Robbery:Client:Lombank:StartSecuring", function(entity, data)
 	end)
 end)
 
-AddEventHandler("Robbery:Client:Lombank:ElectricBox:Hack", function(entity, data)
+AddEventHandler("Robbery:Client:Lombank:ElectricBox:Hack", function(data)
 	exports["sandbox-base"]:ServerCallback("Robbery:Lombank:ElectricBox:Hack", data, function() end)
 end)
 
-AddEventHandler("Robbery:Client:Lombank:ElectricBox:Thermite", function(entity, data)
+AddEventHandler("Robbery:Client:Lombank:ElectricBox:Thermite", function(data)
 	exports["sandbox-base"]:ServerCallback("Robbery:Lombank:ElectricBox:Thermite", data, function() end)
 end)
 
-AddEventHandler("Robbery:Client:Lombank:Drill", function(entity, data)
-	exports["sandbox-base"]:ServerCallback("Robbery:Lombank:Drill", data.id, function() end)
+AddEventHandler("Robbery:Client:Lombank:Drill", function(wallId)
+	exports["sandbox-base"]:ServerCallback("Robbery:Lombank:Drill", wallId, function() end)
 end)
 
-AddEventHandler("Robbery:Client:Lombank:LootCart", function(entity, data)
+AddEventHandler("Robbery:Client:Lombank:LootCart", function(entity, roomId)
 	exports["sandbox-base"]:ServerCallback(
 		"Robbery:Lombank:Vault:StartLootTrolley",
-		{ coords = GetEntityCoords(entity.entity) },
+		{ coords = GetEntityCoords(entity.entity), roomId = roomId },
 		function(valid)
 			if valid then
 				local CashAppear = function()

@@ -2,24 +2,24 @@ _mbDoors = {
 	{
 		coords = vector3(-1307.724, -817.6955, 16.80672),
 		heading = 305.704,
-		door = "mazebank_tills",
+		door = "sandbox_mazebank_tills",
 		requiredDoors = {},
 	},
 	{
 		coords = vector3(-1301.999, -819.1389, 16.88831),
 		heading = 306.572,
-		door = "mazebank_gate",
+		door = "sandbox_mazebank_gate",
 		requiredDoors = {
-			"mazebank_tills",
+			"sandbox_mazebank_tills",
 		},
 	},
 	{
 		coords = vector3(-1295.787, -816.8411, 17.15724),
 		heading = 217.537,
-		door = "mazebank_vault_gate",
+		door = "sandbox_mazebank_vault_gate",
 		requiredDoors = {
-			"mazebank_tills",
-			"mazebank_gate",
+			"sandbox_mazebank_tills",
+			"sandbox_mazebank_gate",
 		},
 	},
 }
@@ -29,8 +29,8 @@ _mbHacks = {
 		coords = vector3(-1299.680, -816.679, 16.779),
 		heading = 308.857,
 		requiredDoors = {
-			"mazebank_tills",
-			"mazebank_gate",
+			"sandbox_mazebank_tills",
+			"sandbox_mazebank_gate",
 		},
 		doorId = 1,
 		doorConfig = {
@@ -140,21 +140,21 @@ _mbDrillPoints = {
 _mbOfficeDoors = {
 	{
 		coords = vector3(-1300.430, -831.591, 17.075),
-		door = "mazebank_office_1",
+		door = "sandbox_mazebank_office_1",
 		requiredDoors = {
 			"mazebank_offices",
 		},
 	},
 	{
 		coords = vector3(-1297.972, -834.860, 17.075),
-		door = "mazebank_office_2",
+		door = "sandbox_mazebank_office_2",
 		requiredDoors = {
 			"mazebank_offices",
 		},
 	},
 	{
 		coords = vector3(-1292.914, -841.591, 17.075),
-		door = "mazebank_office_3",
+		door = "sandbox_mazebank_office_3",
 		requiredDoors = {
 			"mazebank_offices",
 		},
@@ -173,8 +173,8 @@ _mbDesks = {
 			maxZ = 17.87,
 		},
 		requiredDoors = {
-			"mazebank_offices",
-			"mazebank_office_1",
+			"sandbox_mazebank_offices",
+			"sandbox_mazebank_office_1",
 		},
 		data = {
 			deskId = 1,
@@ -191,8 +191,8 @@ _mbDesks = {
 			maxZ = 17.87,
 		},
 		requiredDoors = {
-			"mazebank_offices",
-			"mazebank_office_2",
+			"sandbox_mazebank_offices",
+			"sandbox_mazebank_office_2",
 		},
 		data = {
 			deskId = 2,
@@ -209,8 +209,8 @@ _mbDesks = {
 			maxZ = 17.87,
 		},
 		requiredDoors = {
-			"mazebank_offices",
-			"mazebank_office_3",
+			"sandbox_mazebank_offices",
+			"sandbox_mazebank_office_3",
 		},
 		data = {
 			deskId = 3,

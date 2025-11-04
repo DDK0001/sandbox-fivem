@@ -50,7 +50,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 31.47,
 		options = {
 			{
-				icon = "phone",
+				icon = "fas fa-lock",
 				label = "Secure Building",
 				groups = { "police" },
 				onSelect = function()
@@ -78,7 +78,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 31.67,
 		options = {
 			{
-				icon = "bomb",
+				icon = "fas fa-bomb",
 				label = "Grab Breaching Charge",
 				event = "Robbery:Client:Bobcat:GrabC4",
 				canInteract = function()
@@ -102,7 +102,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 31.32,
 		options = {
 			{
-				icon = "terminal",
+				icon = "fas fa-terminal",
 				label = "Hack Terminal",
 				event = "Robbery:Client:Bobcat:HackFrontPC",
 				item = "electronics_kit",
@@ -126,7 +126,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 31.27,
 		options = {
 			{
-				icon = "terminal",
+				icon = "fas fa-terminal",
 				label = "Hack Terminal",
 				event = "Robbery:Client:Bobcat:HackSecuriyPC",
 				canInteract = function()
@@ -156,7 +156,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "hand",
+					icon = "fas fa-hand-paper",
 					label = "Grab Loot",
 					event = "Robbery:Client:Bobcat:GrabLoot",
 					onSelect = function()
