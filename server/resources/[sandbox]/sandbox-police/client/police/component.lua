@@ -470,8 +470,8 @@ AddEventHandler('onClientResourceStart', function(resource)
 			[`mp_f_freemode_01`] = true,
 		}
 		exports["sandbox-base"]:RegisterClientCallback("Police:DoDetCord", function(data, cb)
-			local cDoorId, cDoorEnt, cDoorCoords = exports['sandbox-doors']:GetCurrentDoor()
-			if cDoorId and exports['sandbox-doors']:IsLocked(cDoorId) then
+			local closestDoor = exports.ox_doorlock:getClosestDoor()
+			if closestDoor and closestDoor.state == 1 then -- state 1 means locked
 				CreateThread(function()
 					local playerPed = PlayerPedId()
 					local playerPos = GetEntityCoords(playerPed, false)
@@ -486,14 +486,13 @@ AddEventHandler('onClientResourceStart', function(resource)
 
 					-- Apparently This Can Happen Sometimes so better just setting to door coords instead of halfway across map
 					if endCoords == vector3(0, 0, 0) then
-						endCoords = cDoorCoords
+						endCoords = closestDoor and closestDoor.coords or vector3(0, 0, 0)
 					end
 
-					RequestAnimDict("anim@heists@ornate_bank@thermal_charge")
-					RequestModel("hei_p_m_bag_var22_arm_s")
-					while not HasAnimDictLoaded("anim@heists@ornate_bank@thermal_charge") and not HasModelLoaded("hei_p_m_bag_var22_arm_s") do
-						Wait(0)
-					end
+					-- Use ox_lib to load animation dictionary and model
+					lib.requestAnimDict("anim@heists@ornate_bank@thermal_charge")
+					lib.requestModel("hei_p_m_bag_var22_arm_s")
+					
 					local ped = PlayerPedId()
 					Wait(100)
 					local rotx, roty, rotz = table.unpack(vec3(GetEntityRotation(ped)))
@@ -521,9 +520,9 @@ AddEventHandler('onClientResourceStart', function(resource)
 					DetachEntity(bomba, 1, 1)
 					FreezeEntityPosition(bomba, true)
 					NetworkStopSynchronisedScene(bagscene)
-					TaskPlayAnim(ped, "anim@heists@ornate_bank@thermal_charge", "cover_eyes_intro", 8.0, 8.0, 1000, 36, 1,
+					lib.playAnim(ped, "anim@heists@ornate_bank@thermal_charge", "cover_eyes_intro", 8.0, 8.0, 1000, 36, 1,
 						0, 0, 0)
-					TaskPlayAnim(ped, "anim@heists@ornate_bank@thermal_charge", "cover_eyes_loop", 8.0, 8.0, 6000, 49, 1,
+					lib.playAnim(ped, "anim@heists@ornate_bank@thermal_charge", "cover_eyes_loop", 8.0, 8.0, 6000, 49, 1,
 						0, 0, 0)
 					exports["sandbox-base"]:ServerCallback("Robbery:DoThermiteFx", {
 						delay = 7000,
@@ -535,12 +534,12 @@ AddEventHandler('onClientResourceStart', function(resource)
 						x = endCoords.x,
 						y = endCoords.y,
 						z = endCoords.z,
-						h = GetEntityHeading(cDoorEnt),
+						h = closestDoor and closestDoor.heading or 0.0,
 					}, function() end)
 
 					ClearPedTasks(ped)
 					DeleteObject(bomba)
-					cb(true, cDoorId)
+					cb(true, closestDoor and closestDoor.id or nil)
 				end)
 			end
 		end)
