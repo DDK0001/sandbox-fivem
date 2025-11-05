@@ -152,17 +152,8 @@ RegisterNetEvent("Businesses:Client:CreatePoly", function(pickups, onSpawn)
 					},
 					{
 						icon = "fas fa-money-check-dollar",
-						label = function()
-							if
 								GlobalState[string.format("PendingContactless:%s", data.id)]
-								and GlobalState[string.format("PendingContactless:%s", data.id)] > 0
-							then
-								return string.format(
-									"Pay Contactless ($%s)",
-									GlobalState[string.format("PendingContactless:%s", data.id)]
-								)
-							end
-						end,
+						label = "Pay Contactless Payment",
 						event = "Businesses:Client:PayContactlessPayment",
 						items = { "phone" },
 						reqDuty = true,
