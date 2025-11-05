@@ -715,14 +715,16 @@ function BuildMetaDataTable(cData, item, existing)
         MetaData.CollectedTime = os.time()
         if MetaData.EvidenceDegraded then
             MetaData.description = "⚠️ Evidence too degraded for analysis"
-        elseif MetaData.EvidenceWeapon and MetaData.EvidenceWeapon.serial then
-            local weaponItem = ItemList[MetaData.EvidenceWeapon.name]
-            local weaponLabel = (weaponItem and weaponItem.label) or MetaData.EvidenceWeapon.name or "Unknown Weapon"
-            
+        else
+            local weaponLabel = "Unknown Weapon"
+            if MetaData.EvidenceWeapon then
+                local weaponItem = ItemList[MetaData.EvidenceWeapon.name]
+                weaponLabel = (weaponItem and weaponItem.label) or MetaData.EvidenceWeapon.name or "Unknown Weapon"
+            end
+
             MetaData.description = string.format(
-                "Projectile from %s\nSerial: %s\nAmmo: %s",
-                weaponLabel,
-                MetaData.EvidenceWeapon.serial,
+                "Evidence ID: %s\nAmmo: %s",
+                MetaData.EvidenceId or "N/A",
                 MetaData.EvidenceAmmoType or "Unknown"
             )
         end
@@ -746,6 +748,18 @@ function BuildMetaDataTable(cData, item, existing)
                 color.r or 0,
                 color.g or 0,
                 color.b or 0
+            )
+        end
+    elseif itemExist.name == "fakeplates" then
+        if MetaData.metadata then
+            local data = MetaData.metadata
+            MetaData.description = string.format(
+                "Fake Plates\nOwner: %s | SID: %d | Plate: %s | VIN: %s | Vehicle: %s",
+                data.OwnerName or "Unknown",
+                data.SID or 0,
+                data.Plate or "N/A",
+                data.VIN or "N/A",
+                data.Vehicle or "Unknown"
             )
         end
     end

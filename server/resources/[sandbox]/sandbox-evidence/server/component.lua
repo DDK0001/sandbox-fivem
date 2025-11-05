@@ -86,55 +86,91 @@ RegisterNetEvent("Evidence:Server:PickupEvidence", function(evidenceId)
     if char and exports['sandbox-jobs']:HasJob(_src, "police") then
         for k, v in ipairs(EVIDENCE_CACHE) do
             if v.id == evidenceId then
-                local itemName, baseMetadata
+                local itemName, metadata
+                local collectedTime = os.time()
                 
                 if v.type == "paint_fragment" then
                     itemName = "evidence-paint"
-                    baseMetadata = {
+                    local color = v.data and v.data.color
+                    metadata = {
                         EvidenceType = v.type,
                         EvidenceId = v.id,
                         EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
-                        EvidenceColor = v.data and v.data.color,
+                        EvidenceColor = color,
+                        CollectedTime = collectedTime,
+                        description = color and string.format(
+                            "Paint Fragment\nRGB: (%d, %d, %d)",
+                            color.r or 0,
+                            color.g or 0,
+                            color.b or 0
+                        ) or "Paint Fragment",
                     }
                 elseif v.type == "projectile" then
                     itemName = "evidence-projectile"
-                    baseMetadata = {
+                    local degraded = v.data and v.data.tooDegraded
+                    metadata = {
                         EvidenceType = v.type,
                         EvidenceId = v.id,
                         EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
                         EvidenceWeapon = v.data and v.data.weapon,
                         EvidenceAmmoType = (v.data and v.data.weapon) and v.data.weapon.ammoTypeName,
-                        EvidenceDegraded = v.data and v.data.tooDegraded,
+                        EvidenceDegraded = degraded,
+                        CollectedTime = collectedTime,
+                        description = degraded and "⚠️ Evidence too degraded for analysis" or string.format(
+                            "Evidence ID: %s\nAmmo: %s",
+                            v.id or "N/A",
+                            (v.data and v.data.weapon) and v.data.weapon.ammoTypeName or "Unknown"
+                        ),
                     }
                 elseif v.type == "casing" then
                     itemName = "evidence-casing"
-                    baseMetadata = {
+                    local weapon = v.data and v.data.weapon
+                    local weaponLabel = "Unknown Weapon"
+                    if weapon and weapon.name then
+                        local ItemList = require 'modules.items.shared'
+                        local weaponItem = ItemList[weapon.name]
+                        weaponLabel = (weaponItem and weaponItem.label) or weapon.name or "Unknown Weapon"
+                    end
+                    metadata = {
                         EvidenceType = v.type,
                         EvidenceId = v.id,
                         EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
-                        EvidenceWeapon = v.data and v.data.weapon,
-                        EvidenceAmmoType = (v.data and v.data.weapon) and v.data.weapon.ammoTypeName,
+                        EvidenceWeapon = weapon,
+                        EvidenceAmmoType = weapon and weapon.ammoTypeName,
+                        CollectedTime = collectedTime,
+                        description = (weapon and weapon.serial) and string.format(
+                            "Casing from %s\nSerial: %s\nAmmo: %s",
+                            weaponLabel,
+                            weapon.serial,
+                            weapon.ammoTypeName or "Unknown"
+                        ) or "Casing Evidence",
                     }
                 elseif v.type == "blood" then
                     itemName = "evidence-dna"
-                    baseMetadata = {
+                    local degraded = v.data and v.data.tooDegraded
+                    local dna = v.data and v.data.DNA
+                    metadata = {
                         EvidenceType = v.type,
                         EvidenceId = v.id,
                         EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
-                        EvidenceDNA = v.data and v.data.DNA,
+                        EvidenceDNA = dna,
                         EvidenceBloodPool = v.data and v.data.IsBloodPool,
-                        EvidenceDegraded = v.data and v.data.tooDegraded,
+                        EvidenceDegraded = degraded,
+                        CollectedTime = collectedTime,
+                        description = degraded and "⚠️ DNA sample too degraded for analysis" or (dna and string.format(
+                            "%s DNA Sample\nSID: %s",
+                            (v.data and v.data.IsBloodPool) and "Blood Pool" or "Blood",
+                            dna
+                        ) or "DNA Evidence"),
                     }
                 end
                 
                 if itemName then
-                    local finalMetadata = exports.ox_inventory:BuildMetaDataTable(char:GetData(), itemName, baseMetadata)
-                    
                     exports.ox_inventory:AddItem(
                         char:GetData("SID"), 
                         itemName, 
                         1, 
-                        finalMetadata, 
+                        metadata, 
                         1
                     )
                     
