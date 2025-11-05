@@ -751,18 +751,26 @@ function BuildMetaDataTable(cData, item, existing)
             )
         end
     elseif itemExist.name == "fakeplates" then
-        if MetaData.metadata then
-            local data = MetaData.metadata
-            MetaData.description = string.format(
-                "Fake Plates\nOwner: %s | SID: %d | Plate: %s | VIN: %s | Vehicle: %s",
-                data.OwnerName or "Unknown",
-                data.SID or 0,
-                data.Plate or "N/A",
-                data.VIN or "N/A",
-                data.Vehicle or "Unknown"
-            )
-        end
+        local updatingMetaData = {
+            Plate = exports['sandbox-vehicles']:PlateGenerate(true),
+            VIN = exports['sandbox-vehicles']:VINGenerateLocal(),
+            OwnerName = exports['sandbox-base']:GeneratorNameFirst() .. " " .. exports['sandbox-base']:GeneratorNameLast(),
+            SID = exports['sandbox-base']:SequenceGet("Character"),
+            Vehicle = exports['sandbox-vehicles']:RandomName(),
+        }
+    
+        MetaData.metadata = updatingMetaData
+    
+        MetaData.description = string.format(
+            "Fake Plate\nOwner: %s | SID: %d | Plate: %s | VIN: %s | Vehicle: %s",
+            updatingMetaData.OwnerName,
+            updatingMetaData.SID,
+            updatingMetaData.Plate,
+            updatingMetaData.VIN,
+            updatingMetaData.Vehicle
+        )
     end
+
 
     return MetaData
 end

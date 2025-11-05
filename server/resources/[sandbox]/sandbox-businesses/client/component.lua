@@ -152,7 +152,6 @@ RegisterNetEvent("Businesses:Client:CreatePoly", function(pickups, onSpawn)
 					},
 					{
 						icon = "fas fa-money-check-dollar",
-								GlobalState[string.format("PendingContactless:%s", data.id)]
 						label = "Pay Contactless Payment",
 						event = "Businesses:Client:PayContactlessPayment",
 						items = { "phone" },

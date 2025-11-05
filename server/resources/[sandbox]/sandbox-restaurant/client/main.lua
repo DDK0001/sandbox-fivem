@@ -618,7 +618,7 @@ RegisterNetEvent("Restaurant:Client:CreatePoly", function(pickups, warmersList, 
 				maxZ = data.options.maxZ,
 				options = {
 					{
-						icon = "fork-knife",
+						icon = "fas fa-box-open",
 						label = string.format("Pickup Order (#%s)", data.num),
 						onSelect = function()
 							TriggerEvent("Restaurant:Client:Pickup", data.data)
@@ -626,7 +626,7 @@ RegisterNetEvent("Restaurant:Client:CreatePoly", function(pickups, warmersList, 
 						distance = data.driveThru and 5.0 or 2.0,
 					},
 					{
-						icon = "money-check-dollar-pen",
+						icon = "fas fa-money-check-dollar-pen",
 						label = "Set Contactless Payment",
 						onSelect = function()
 							TriggerEvent("Businesses:Client:CreateContactlessPayment", data)
@@ -637,7 +637,7 @@ RegisterNetEvent("Restaurant:Client:CreatePoly", function(pickups, warmersList, 
 						end,
 					},
 					{
-						icon = "money-check-dollar-pen",
+						icon = "fas fa-money-check-dollar-pen",
 						label = "Clear Contactless Payment",
 						onSelect = function()
 							TriggerEvent("Businesses:Client:ClearContactlessPayment", data)
@@ -648,13 +648,8 @@ RegisterNetEvent("Restaurant:Client:CreatePoly", function(pickups, warmersList, 
 						end,
 					},
 					{
-						icon = "money-check-dollar",
-						label = function()
-							if GlobalState[string.format("PendingContactless:%s", data.id)] and GlobalState[string.format("PendingContactless:%s", data.id)] > 0 then
-								return string.format("Pay Contactless ($%s)",
-									GlobalState[string.format("PendingContactless:%s", data.id)])
-							end
-						end,
+						icon = "fas fa-money-check-dollar-pen",
+						label = "Pay Contactless Payment",
 						onSelect = function()
 							TriggerEvent("Businesses:Client:PayContactlessPayment", data)
 						end,
