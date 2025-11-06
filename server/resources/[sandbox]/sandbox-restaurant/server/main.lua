@@ -1,10 +1,14 @@
+local startup = false
 AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
 		Wait(1000)
 		Startup()
 
 		exports['sandbox-base']:MiddlewareAdd("Characters:Spawning", function(source)
-			RunRestaurantJobUpdate(source, true)
+			if not startup then
+				startup = true
+				RunRestaurantJobUpdate(source, true)
+			end
 		end, 2)
 	end
 end)
@@ -28,7 +32,3 @@ function RunRestaurantJobUpdate(source, onSpawn)
 
 	TriggerClientEvent("Restaurant:Client:CreatePoly", source, _pickups, warmersList, fridgesList, onSpawn)
 end
-
-AddEventHandler("Jobs:Server:JobUpdate", function(source)
-	RunRestaurantJobUpdate(source)
-end)

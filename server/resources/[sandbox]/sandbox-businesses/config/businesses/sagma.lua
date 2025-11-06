@@ -15,10 +15,6 @@ table.insert(Config.Businesses, {
 			},
 			data = {
 				business = "sagma",
-				inventory = {
-					invType = 25,
-					owner = "sagma-pickup-1",
-				},
 			},
 		},
 	},

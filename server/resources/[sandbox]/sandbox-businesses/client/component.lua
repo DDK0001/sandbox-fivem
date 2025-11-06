@@ -8,33 +8,15 @@ end)
 RegisterNetEvent("Characters:Client:Spawn")
 AddEventHandler("Characters:Client:Spawn", function()
 	--  self, id, name, coords, sprite, colour, scale, display, category, flashes
-	-- exports["sandbox-blips"]:Add("shopping-mall", "Shopping Mall", vector3(-555.491, -597.852, 34.682), 59, 50, 0.6)
-	exports["sandbox-blips"]:Add(
-		"black_woods_saloon",
-		"Black Woods Saloon",
-		vector3(-305.136078, 6264.041016, 31.526928),
-		93,
-		31,
-		0.6,
-		2,
-		11
-	)
+	--exports["sandbox-blips"]:Add("shopping-mall", "Shopping Mall", vector3(-555.491, -597.852, 34.682), 59, 50, 0.6)
+	exports["sandbox-blips"]:Add("black_woods_saloon", "Black Woods Saloon", vector3(-305.136078, 6264.041016, 31.526928), 93, 31, 0.6, 2, 11)
 
-	-- exports["sandbox-blips"]:Add(
-	-- 	"redline-performance",
-	-- 	"Mechanic: Redline Performance",
-	-- 	vector3(-600.028, -929.695, 23.866),
-	-- 	483,
-	-- 	59,
-	-- 	0.6,
-	-- 	2,
-	-- 	11
-	-- )
+	--exports["sandbox-blips"]:Add("redline-performance", "Mechanic: Redline Performance", vector3(-600.028, -929.695, 23.866), 483, 59, 0.6, 2, 11)
+
 	exports["sandbox-blips"]:Add("pizza_this", "Pizza This", vector3(793.905, -758.289, 26.779), 267, 52, 0.5, 2, 11)
 	exports["sandbox-blips"]:Add("uwu_cafe", "UwU Cafe", vector3(-581.098, -1070.048, 22.330), 621, 34, 0.6, 2, 11)
 	--exports["sandbox-blips"]:Add("arcade", "Business: Arcade", vector3(-1651.675, -1082.294, 13.156), 484, 58, 0.8, 2, 11)
-	exports["sandbox-blips"]:Add("cloud9_drift", "Business: Cloud9 Drift", vector3(-27.3694, -2544.8574, 6.0120), 315, 77,
-		0.5, 2, 11)
+	exports["sandbox-blips"]:Add("cloud9_drift", "Business: Cloud9 Drift", vector3(-27.3694, -2544.8574, 6.0120), 315, 77, 0.5, 2, 11)
 
 	exports["sandbox-blips"]:Add("tuna", "Business: Tuner Shop", vector3(161.992, -3036.946, 6.683), 611, 83, 0.6, 2, 11)
 	exports["sandbox-blips"]:Add("triad", "Triad Records", vector3(-832.578, -698.627, 27.280), 614, 76, 0.5, 2, 11)
@@ -52,14 +34,13 @@ AddEventHandler("Characters:Client:Spawn", function()
 	exports["sandbox-blips"]:Add("harmony", "Harmony Repairs", vector3(1176.567, 2657.295, 37.972), 542, 7, 0.5, 2, 11)
 
 	exports["sandbox-blips"]:Add("bakery", "Bakery", vector3(-1255.273, -293.090, 37.383), 106, 31, 0.5, 2, 11)
-	-- exports["sandbox-blips"]:Add("noodle", "Noodle Exchange", vector3(-1194.746, -1161.401, 7.692), 414, 6, 0.5, 2, 11)
+	--exports["sandbox-blips"]:Add("noodle", "Noodle Exchange", vector3(-1194.746, -1161.401, 7.692), 414, 6, 0.5, 2, 11)
 	exports["sandbox-blips"]:Add("burgershot", "Burger Shot", vector3(-1183.511, -884.722, 13.800), 106, 6, 0.5, 2, 11)
 
 	exports["sandbox-blips"]:Add("rustybrowns", "Rusty Browns", vector3(148.068, 238.705, 106.983), 270, 8, 0.65, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("lasttrain", "Last Train Diner", vector3(-361.137, 275.310, 86.422), 208, 6, 0.5, 2, 11)
-	exports["sandbox-blips"]:Add("beanmachine", "Business: Bean Machine", vector3(116.985, -1039.424, 29.278), 536, 52,
-		0.5, 2, 11)
+	--exports["sandbox-blips"]:Add("lasttrain", "Last Train Diner", vector3(-361.137, 275.310, 86.422), 208, 6, 0.5, 2, 11)
+	exports["sandbox-blips"]:Add("beanmachine", "Business: Bean Machine", vector3(116.985, -1039.424, 29.278), 536, 52, 0.5, 2, 11)
 
 	exports["sandbox-blips"]:Add("tequila", "Tequi-la-la", vector3(-564.575, 276.170, 83.119), 93, 81, 0.6, 2, 11)
 
@@ -69,47 +50,41 @@ AddEventHandler("Characters:Client:Spawn", function()
 
 	exports["sandbox-blips"]:Add("bahama", "Bahama Mamas", vector3(-1388.605, -586.612, 30.219), 93, 61, 0.7, 2, 11)
 
-	exports["sandbox-blips"]:Add("smokeonwater", "Smoke on the Water", vector3(-1169.751, -1571.643, 4.667), 140, 52, 0.6,
-		2, 11)
+	exports["sandbox-blips"]:Add("smokeonwater", "Smoke on the Water", vector3(-1169.751, -1571.643, 4.667), 140, 52, 0.6, 2, 11)
 
 	exports["sandbox-blips"]:Add("digitalden", "Digital Den", vector3(1137.494, -470.840, 66.659), 355, 58, 0.6, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("rockford_records", "Rockford Records", vector3(-1007.658, -267.795, 39.040), 614, 63, 0.5, 2, 11)
+	--exports["sandbox-blips"]:Add("rockford_records", "Rockford Records", vector3(-1007.658, -267.795, 39.040), 614, 63, 0.5, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("gruppe6", "Gruppe 6 Security", vector3(22.813, -123.661, 55.978), 487, 24, 0.8, 2, 11)
+	--exports["sandbox-blips"]:Add("gruppe6", "Gruppe 6 Security", vector3(22.813, -123.661, 55.978), 487, 24, 0.8, 2, 11)
 
 	exports["sandbox-blips"]:Add("pepega_pawn", "Pepega Pawn", vector3(-296.300, -106.232, 47.051), 605, 1, 0.6, 2, 11)
 
 	exports["sandbox-blips"]:Add("garcon_pawn", "Garcon Pawn", vector3(-231.868, 6235.155, 31.496), 605, 1, 0.6, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("ottos_autos", "Ottos Autos", vector3(946.128, -988.302, 39.178), 483, 25, 0.8, 2, 11)
+	--exports["sandbox-blips"]:Add("ottos_autos", "Ottos Autos", vector3(946.128, -988.302, 39.178), 483, 25, 0.8, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("fightclub", "The Fightclub", vector3(1059.197, -2409.773, 29.928), 311, 8, 0.6, 2, 11)
+	--exports["sandbox-blips"]:Add("fightclub", "The Fightclub", vector3(1059.197, -2409.773, 29.928), 311, 8, 0.6, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("jewel", "The Jeweled Dragon", vector3(-708.910, -886.714, 23.804), 674, 5, 0.6, 2, 11)
+	--exports["sandbox-blips"]:Add("jewel", "The Jeweled Dragon", vector3(-708.910, -886.714, 23.804), 674, 5, 0.6, 2, 11)
 
-	exports["sandbox-blips"]:Add("vangelico", "Vangelico Paleto", vector3(-384.467, 6041.473, 31.500), 617, 53, 0.6, 2,
-		11)
+	exports["sandbox-blips"]:Add("vangelico", "Vangelico Paleto", vector3(-384.467, 6041.473, 31.500), 617, 53, 0.6, 2, 11)
 
-	exports["sandbox-blips"]:Add("vangelico_grapeseed", "Vangelico Grapeseed", vector3(1655.029, 4883.049, 41.969), 617,
-		53, 0.6, 2, 11)
+	exports["sandbox-blips"]:Add("vangelico_grapeseed", "Vangelico Grapeseed", vector3(1655.029, 4883.049, 41.969), 617, 53, 0.6, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("sagma", "San Andreas Gallery of Modern Art", vector3(-424.835, 21.379, 46.269), 674, 5, 0.6, 2, 11)
+	--exports["sandbox-blips"]:Add("sagma", "San Andreas Gallery of Modern Art", vector3(-424.835, 21.379, 46.269), 674, 5, 0.6, 2, 11)
 
-	exports["sandbox-blips"]:Add("bennys", "Benny's Mechanics", vector3(-211.4965, -1326.7563, 31.3005), 544, 63, 1.0, 2,
-		11)
+	exports["sandbox-blips"]:Add("bennys", "Benny's Mechanics", vector3(-211.4965, -1326.7563, 31.3005), 544, 63, 1.0, 2, 11)
 
 	exports["sandbox-blips"]:Add("taco", "Taco Shop", vector3(8.572, -1609.225, 29.296), 52, 43, 0.6, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("prego", "Cafe Prego", vector3(-1114.819, -1452.965, 5.147), 267, 6, 0.7, 2, 11)
+	--exports["sandbox-blips"]:Add("prego", "Cafe Prego", vector3(-1114.819, -1452.965, 5.147), 267, 6, 0.7, 2, 11)
 
-	-- exports["sandbox-blips"]:Add("white_law", "White & Associates", vector3(-1370.389, -502.949, 33.158), 457, 10, 0.7, 2, 11)
+	--exports["sandbox-blips"]:Add("white_law", "White & Associates", vector3(-1370.389, -502.949, 33.158), 457, 10, 0.7, 2, 11)
 
-	exports["sandbox-blips"]:Add("paleto_tuners", "Paleto Tuners", vector3(160.253, 6386.286, 31.343), 544, 43, 1.0, 2,
-		11)
+	exports["sandbox-blips"]:Add("paleto_tuners", "Paleto Tuners", vector3(160.253, 6386.286, 31.343), 544, 43, 1.0, 2, 11)
 
-	exports["sandbox-blips"]:Add("dreamworks", "Dreamworks Mechanics", vector3(-739.396, -1514.290, 5.055), 524, 6, 0.7,
-		2, 11)
+	exports["sandbox-blips"]:Add("dreamworks", "Dreamworks Mechanics", vector3(-739.396, -1514.290, 5.055), 524, 6, 0.7, 2, 11)
 end)
 
 RegisterNetEvent("Businesses:Client:CreatePoly", function(pickups, onSpawn)
@@ -128,12 +103,16 @@ RegisterNetEvent("Businesses:Client:CreatePoly", function(pickups, onSpawn)
 					{
 						icon = "fas fa-box-open",
 						label = string.format("Pickup Order (#%s)", data.num),
-						event = "Businesses:Client:Pickup",
+						onSelect = function()
+							TriggerEvent("Businesses:Client:Pickup", data.data)
+						end,
 					},
 					{
-						icon = "fas fa-money-check-dollar-pen",
+						icon = "fas fa-money-check-dollar",
 						label = "Set Contactless Payment",
-						event = "Businesses:Client:CreateContactlessPayment",
+						onSelect = function()
+							TriggerEvent("Businesses:Client:CreateContactlessPayment", data)
+						end,
 						groups = { data.job },
 						reqDuty = true,
 						canInteract = function()
@@ -141,9 +120,11 @@ RegisterNetEvent("Businesses:Client:CreatePoly", function(pickups, onSpawn)
 						end,
 					},
 					{
-						icon = "fas fa-money-check-dollar-pen",
+						icon = "fas fa-money-check-dollar",
 						label = "Clear Contactless Payment",
-						event = "Businesses:Client:ClearContactlessPayment",
+						onSelect = function()
+							TriggerEvent("Businesses:Client:ClearContactlessPayment", data)
+						end,
 						groups = { data.job },
 						reqDuty = true,
 						canInteract = function()
@@ -153,12 +134,14 @@ RegisterNetEvent("Businesses:Client:CreatePoly", function(pickups, onSpawn)
 					{
 						icon = "fas fa-money-check-dollar",
 						label = "Pay Contactless Payment",
-						event = "Businesses:Client:PayContactlessPayment",
-						items = { "phone" },
-						reqDuty = true,
+						onSelect = function()
+							TriggerEvent("Businesses:Client:PayContactlessPayment", data)
+						end,
+						item = "phone",
+						distance = data.driveThru and 5.0 or 2.0,
 						canInteract = function()
-							return GlobalState[string.format("PendingContactless:%s", data.id)]
-								and GlobalState[string.format("PendingContactless:%s", data.id)] > 0
+							return GlobalState[string.format("PendingContactless:%s", data.id)] and
+								GlobalState[string.format("PendingContactless:%s", data.id)] > 0
 						end,
 					},
 				}
@@ -168,22 +151,59 @@ RegisterNetEvent("Businesses:Client:CreatePoly", function(pickups, onSpawn)
 end)
 
 AddEventHandler("Businesses:Client:Pickup", function(data)
-	exports.ox_inventory:DumbfuckOpen(data.inventory)
+	if data.inventory then
+		exports.ox_inventory:openInventory(data.inventory, data.inventoryId)
+	end
 end)
-
 function GetBusinessClockInMenu(businessName)
 	return {
 		{
 			icon = "fas fa-clipboard-check",
 			label = "Clock In",
-			event = "Businesses:Client:ClockIn",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockIn", { job = businessName })
+			end,
 			groups = { businessName },
 			reqOffDuty = true,
 		},
 		{
 			icon = "fas fa-clipboard",
 			label = "Clock Out",
-			event = "Businesses:Client:ClockOut",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockOut", { job = businessName })
+			end,
+			groups = { businessName },
+			reqDuty = true,
+		},
+	}
+end
+
+function GetBusinessClockInMenuWithTV(businessName)
+	return {
+		{
+			icon = "fas fa-clipboard-check",
+			label = "Clock In",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockIn", { job = businessName })
+			end,
+			groups = { businessName },
+			reqOffDuty = true,
+		},
+		{
+			icon = "fas fa-clipboard",
+			label = "Clock Out",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockOut", { job = businessName })
+			end,
+			groups = { businessName },
+			reqDuty = true,
+		},
+		{
+			icon = "fas fa-tv",
+			label = "Set TV Link",
+			onSelect = function()
+					TriggerEvent("Billboards:Client:SetLink", { job = businessName })
+			end,
 			groups = { businessName },
 			reqDuty = true,
 		},
@@ -221,29 +241,7 @@ AddEventHandler("Businesses:Client:Startup", function()
 		debug = false,
 		minZ = 45.65,
 		maxZ = 47.85,
-		options = {
-			{
-				icon = "fas fa-clipboard-check",
-				label = "Clock In",
-				event = "Businesses:Client:ClockIn",
-				groups = { "pepega_pawn" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "fas fa-clipboard",
-				label = "Clock Out",
-				event = "Businesses:Client:ClockOut",
-				groups = { "pepega_pawn" },
-				reqDuty = true,
-			},
-			-- {
-			-- 	icon = "tv",
-			-- 	label = "Set TV Link",
-			-- 	event = "Billboards:Client:SetLink",
-			-- 	groups = { "pepega_pawn" },
-			--  reqDuty = true,
-			-- },
-		}
+		options = GetBusinessClockInMenu("pepega_pawn")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -254,22 +252,7 @@ AddEventHandler("Businesses:Client:Startup", function()
 		debug = false,
 		minZ = 28.39,
 		maxZ = 32.39,
-		options = {
-			{
-				icon = "fas fa-clipboard-check",
-				label = "Clock In",
-				event = "Businesses:Client:ClockIn",
-				groups = { "garcon_pawn" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "fas fa-clipboard",
-				label = "Clock Out",
-				event = "Businesses:Client:ClockOut",
-				groups = { "garcon_pawn" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("garcon_pawn")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -339,7 +322,9 @@ AddEventHandler("Businesses:Client:Startup", function()
 			{
 				icon = "fas fa-tv",
 				label = "Set TV Link",
-				event = "Billboards:Client:SetLink",
+				onSelect = function()
+						TriggerEvent("Billboards:Client:SetLink", { job = "tuna" })
+				end,
 				groups = { "tuna" },
 				reqDuty = true,
 			},
@@ -354,29 +339,7 @@ AddEventHandler("Businesses:Client:Startup", function()
 		debug = false,
 		minZ = 30.27,
 		maxZ = 32.07,
-		options = {
-			{
-				icon = "fas fa-clipboard-check",
-				label = "Clock In",
-				event = "Businesses:Client:ClockIn",
-				groups = { "paleto_tuners" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "fas fa-clipboard",
-				label = "Clock Out",
-				event = "Businesses:Client:ClockOut",
-				groups = { "paleto_tuners" },
-				reqDuty = true,
-			},
-			{
-				icon = "fas fa-tv",
-				label = "Set TV Link",
-				event = "Billboards:Client:SetLink",
-				groups = { "paleto_tuners" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("paleto_tuners")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -387,29 +350,7 @@ AddEventHandler("Businesses:Client:Startup", function()
 		debug = false,
 		minZ = 30.27,
 		maxZ = 31.87,
-		options = {
-			{
-				icon = "fas fa-clipboard-check",
-				label = "Clock In",
-				event = "Businesses:Client:ClockIn",
-				groups = { "paleto_tuners" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "fas fa-clipboard",
-				label = "Clock Out",
-				event = "Businesses:Client:ClockOut",
-				groups = { "paleto_tuners" },
-				reqDuty = true,
-			},
-			{
-				icon = "fas fa-tv",
-				label = "Set TV Link",
-				event = "Billboards:Client:SetLink",
-				groups = { "paleto_tuners" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenuWithTV("paleto_tuners")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -420,22 +361,7 @@ AddEventHandler("Businesses:Client:Startup", function()
 		debug = false,
 		minZ = 20.03,
 		maxZ = 22.43,
-		options = {
-			{
-				icon = "fas fa-clipboard-check",
-				label = "Clock In",
-				event = "Businesses:Client:ClockIn",
-				groups = { "blackline" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "fas fa-clipboard",
-				label = "Clock Out",
-				event = "Businesses:Client:ClockOut",
-				groups = { "blackline" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("blackline")
 	})
 end)
 
