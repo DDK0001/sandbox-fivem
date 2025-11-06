@@ -73,7 +73,7 @@ AddEventHandler('onClientResourceStart', function(resource)
 					end,
 				},
 				{
-					icon = "person-from-portal",
+					icon = "door-open",
 					label = "Process Release",
 					event = "Jail:Client:Released",
 					canInteract = function()
@@ -93,6 +93,7 @@ AddEventHandler('onClientResourceStart', function(resource)
 			maxZ = Config.Cafeteria.Food.options.maxZ,
 			options = {
 				{
+					icon = "utensils",
 					label = "Make Food",
 					event = "Jail:Client:MakeFood",
 				},
@@ -109,6 +110,7 @@ AddEventHandler('onClientResourceStart', function(resource)
 			maxZ = Config.Cafeteria.Drink.options.maxZ,
 			options = {
 				{
+					icon = "mug-hot",
 					label = "Make Drink",
 					event = "Jail:Client:MakeDrink",
 				},
@@ -125,10 +127,12 @@ AddEventHandler('onClientResourceStart', function(resource)
 			maxZ = Config.Cafeteria.Juice.options.maxZ,
 			options = {
 				{
+					icon = "mug-hot",
 					label = "Make Fruit Punch",
 					event = "Jail:Client:MakeJuice",
 				},
 				{
+					icon = "mug-hot",
 					label = "Make BerryRazz",
 					event = "Jail:Client:MakeJuice",
 				},
@@ -145,6 +149,7 @@ AddEventHandler('onClientResourceStart', function(resource)
 			maxZ = Config.Payphones.options.maxZ,
 			options = {
 				{
+					icon = "phone",
 					label = "Use Payphone",
 					event = "Phone:Client:OpenLimited",
 				},
