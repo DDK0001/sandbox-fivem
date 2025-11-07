@@ -2957,7 +2957,7 @@ return {
         label = "PD Lockpick",
         description = "Only Usable By Police",
         weight = 500.0,
-        degrade = nil,
+        degrade = 1209600,
         client = {},
         server = {}
     },

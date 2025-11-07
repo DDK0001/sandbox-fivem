@@ -233,6 +233,9 @@ AddEventHandler('onClientResourceStart', function(resource)
 						label = "Check Nitrous Levels",
 						shouldShow = function()
 							if VEHICLE_INSIDE then
+								if exports['sandbox-police']:IsPdCar(VEHICLE_INSIDE) or exports['sandbox-police']:IsEMSCar(VEHICLE_INSIDE) then
+									return false
+								end
 								local vehEnt = Entity(VEHICLE_INSIDE)
 								if vehEnt and vehEnt.state and vehEnt.state.Nitrous then
 									return true
@@ -250,7 +253,6 @@ AddEventHandler('onClientResourceStart', function(resource)
 										10000
 									)
 								end
-
 								exports['sandbox-hud']:InteractionHide()
 							end
 						end,
@@ -260,6 +262,9 @@ AddEventHandler('onClientResourceStart', function(resource)
 						label = "Remove Nitrous",
 						shouldShow = function()
 							if VEHICLE_INSIDE and GetPedInVehicleSeat(VEHICLE_INSIDE, -1) == LocalPlayer.state.ped then
+								if exports['sandbox-police']:IsPdCar(VEHICLE_INSIDE) or exports['sandbox-police']:IsEMSCar(VEHICLE_INSIDE) then
+									return false
+								end
 								local vehEnt = Entity(VEHICLE_INSIDE)
 								if vehEnt and vehEnt.state and vehEnt.state.Nitrous then
 									return true

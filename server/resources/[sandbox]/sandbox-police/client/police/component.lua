@@ -240,27 +240,29 @@ AddEventHandler('onClientResourceStart', function(resource)
 					and LocalPlayer.state._inInvPoly?.business ~= nil
 			end)
 
-		exports['sandbox-hud']:InteractionRegisterMenu("pd-locked-veh", "Secured Compartment", "shield-keyhole",
-			function(data)
-				exports['sandbox-hud']:InteractionHide()
-				exports['sandbox-hud']:Progress({
-					name = "pd_rack_prog",
-					duration = 2000,
-					label = "Unlocking Compartment",
-					useWhileDead = false,
-					canCancel = true,
-					animation = false,
-				}, function(status)
-					if not status then
-						exports["sandbox-base"]:ServerCallback("Police:AccessRifleRack")
-					end
-				end)
-			end, function()
-				local v = GetVehiclePedIsIn(LocalPlayer.state.ped)
-				return (LocalPlayer.state.onDuty == "police" or LocalPlayer.state.onDuty == "prison") and
-					not LocalPlayer.state.isDead and v ~= 0 and _pdModels[GetEntityModel(v)] and
-					exports['sandbox-vehicles']:HasAccess(v)
-			end)
+			exports['sandbox-hud']:InteractionRegisterMenu("pd-locked-veh", "Secured Compartment", "shield",
+			    function(data)
+			        exports['sandbox-hud']:InteractionHide()
+			        exports['sandbox-hud']:Progress({
+			            name = "pd_rack_prog",
+			            duration = 2000,
+			            label = "Unlocking Compartment",
+			            useWhileDead = false,
+			            canCancel = true,
+			            animation = false,
+			        }, function(status)
+			            if not status then
+			                exports["sandbox-base"]:ServerCallback("Police:AccessRifleRack")
+			            end
+			        end)
+			    end, 
+			    function()
+			        local v = GetVehiclePedIsIn(LocalPlayer.state.ped)
+			        return (LocalPlayer.state.onDuty == "police" or LocalPlayer.state.onDuty == "prison") and
+			            not LocalPlayer.state.isDead and v ~= 0 and _pdModels[GetEntityModel(v)] and
+			            exports['sandbox-vehicles']:HasAccess(v)
+			    end
+			)
 
 		exports['sandbox-hud']:InteractionRegisterMenu("police-utils", "Police Utilities", "tablet", function(data)
 			exports['sandbox-hud']:InteractionShowMenu({

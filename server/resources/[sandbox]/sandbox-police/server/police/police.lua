@@ -211,59 +211,36 @@ AddEventHandler('onResourceStart', function(resource)
 		end)
 
 		exports["sandbox-base"]:RegisterServerCallback("Police:AccessRifleRack", function(source, data, cb)
-			local char = exports['sandbox-characters']:FetchCharacterSource(source)
-			if char ~= nil then
-				local myDuty = Player(source).state.onDuty
-				if myDuty == 'police' then
-					local veh = GetVehiclePedIsIn(GetPlayerPed(source))
-					if veh ~= 0 then
-						if Config.PoliceCars[GetEntityModel(veh)] then
-							local entState = Entity(veh).state
-							if exports['sandbox-vehicles']:KeysHas(source, entState.VIN, 'police') then
-								exports["sandbox-base"]:ClientCallback(source, "Inventory:Compartment:Open", {
-									invType = 3,
-									owner = ("pdrack:%s"):format(entState.VIN),
-								}, function()
-									exports.ox_inventory:OpenSecondary(source, 3,
-										("pdrack:%s"):format(entState.VIN))
-								end)
-							else
-								exports['sandbox-hud']:Notification(source, "error",
-									"Can't Access The Locked Compartment")
-							end
-						else
-							exports['sandbox-hud']:Notification(source, "error",
-								"Vehicle Not Outfitted With A Secured Compartment")
-						end
-					else
-						exports['sandbox-hud']:Notification(source, "error", "Not In A Vehicle")
-					end
-				elseif myDuty == 'prison' then
-					local veh = GetVehiclePedIsIn(GetPlayerPed(source))
-					if veh ~= 0 then
-						if Config.PoliceCars[GetEntityModel(veh)] then
-							local entState = Entity(veh).state
-							if exports['sandbox-vehicles']:KeysHas(source, entState.VIN, 'prison') then
-								exports["sandbox-base"]:ClientCallback(source, "Inventory:Compartment:Open", {
-									invType = 999,
-									owner = ("pdrack:%s"):format(entState.VIN),
-								}, function()
-									exports.ox_inventory:OpenSecondary(source, 999,
-										("pdrack:%s"):format(entState.VIN))
-								end)
-							else
-								exports['sandbox-hud']:Notification(source, "error",
-									"Can't Access The Locked Compartment")
-							end
-						else
-							exports['sandbox-hud']:Notification(source, "error",
-								"Vehicle Not Outfitted With A Secured Compartment")
-						end
-					else
-						exports['sandbox-hud']:Notification(source, "error", "Not In A Vehicle")
-					end
-				end
-			end
+		    local char = exports['sandbox-characters']:FetchCharacterSource(source)
+		    if char == nil then return end
+		    local myDuty = Player(source).state.onDuty
+		    if myDuty ~= 'police' and myDuty ~= 'prison' then return end
+		    local ped = GetPlayerPed(source)
+		    local veh = GetVehiclePedIsIn(ped)
+		    if veh == 0 then
+		        exports['sandbox-hud']:Notification(source, "error", "Not In A Vehicle")
+		        return
+		    end
+		    if not Config.PoliceCars[GetEntityModel(veh)] then
+		        exports['sandbox-hud']:Notification(source, "error", "Vehicle Not Outfitted With A Secured Compartment")
+		        return
+		    end
+		    local entState = Entity(veh).state
+		    local jobType = myDuty
+		    if not exports['sandbox-vehicles']:KeysHas(source, entState.VIN, jobType) then
+		        exports['sandbox-hud']:Notification(source, "error", "Can't Access The Locked Compartment")
+		        return
+		    end
+    		local stashId = ("pdrack:%s"):format(entState.VIN)
+    		exports.ox_inventory:RegisterStash(stashId, "Secured Compartment", 10, 150000, nil, {
+    		    [jobType] = 0
+    		})
+		
+    		SetTimeout(100, function()
+    		    exports.ox_inventory:forceOpenInventory(source, 'stash', stashId)
+    		end)
+		
+    		if cb then cb(true) end
 		end)
 
 		exports["sandbox-base"]:RegisterServerCallback("Police:RemoveMask", function(source, data, cb)

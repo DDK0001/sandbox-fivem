@@ -35,6 +35,24 @@ function RegisterItemUses()
 		end)
 	end)
 
+	exports.ox_inventory:RegisterUse("lockpick_pd", "Vehicles", function(source, slot, itemData)
+		Citizen.SetTimeout(500, function()
+			exports["sandbox-base"]:ClientCallback(source, "Vehicles:PDLockpick", true, function(using, success)
+				if using then
+					local newValue = slot.CreateDate - (60 * 60 * 24)
+					if success then
+						newValue = slot.CreateDate - (60 * 60 * 12)
+					end
+					if (os.time() - itemData.durability >= newValue) then
+						exports.ox_inventory:RemoveId(slot.Owner, slot.invType, slot)
+					else
+						exports.ox_inventory:SetItemCreateDate(slot.id, newValue)
+					end
+				end
+			end)
+		end)
+	end)
+
 	exports.ox_inventory:RegisterUse("electronics_kit", "Vehicles", function(source, slot, itemData)
 		Citizen.SetTimeout(500, function()
 			exports["sandbox-base"]:ClientCallback(source, "Vehicles:Hack", true, function(using, success)
