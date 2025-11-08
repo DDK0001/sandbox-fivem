@@ -73,6 +73,17 @@ AddEventHandler("Drugs:Client:Startup", function()
                 end,
             },
             {
+                label = "Upgrade Still",
+                icon = "fas fa-wrench",
+                event = "Drugs:Client:Moonshine:UpgradeStill",
+                distance = 3.0,
+                canInteract = function(entity)
+                    local entState = Entity(entity).state
+                    return entState?.isMoonshineStill and
+                        (_stills[entState.stillId]?.owner == nil or _stills[entState.stillId]?.owner == LocalPlayer.state.Character:GetData("SID"))
+                end,
+            },
+            {
                 label = "Start Brewing",
                 icon = "fas fa-clock",
                 event = "Drugs:Client:Moonshine:StartCook",
@@ -80,8 +91,9 @@ AddEventHandler("Drugs:Client:Startup", function()
                 canInteract = function(entity)
                     local entState = Entity(entity).state
                     return entState?.isMoonshineStill and
+                        not _stills[entState.stillId]?.activeBrew and
                         (not _stills[entState.stillId]?.cooldown or GetCloudTimeAsInt() > _stills[entState.stillId]?.cooldown) and
-                        (_stills[entState.stillId].owner == nil or _stills[entState.stillId].owner == LocalPlayer.state.Character:GetData("SID"))
+                        (_stills[entState.stillId]?.owner == nil or _stills[entState.stillId]?.owner == LocalPlayer.state.Character:GetData("SID"))
                 end,
             },
             {
@@ -122,18 +134,38 @@ AddEventHandler("Drugs:Client:Startup", function()
                 end,
             },
             {
-                label = function(entity)
-                    local entState = Entity(entity).state
-                    return string.format("Fill Jars (Requires %s Empty Jars)",
-                        (_barrels[entState.barrelId]?.brewData?.Drinks or 15))
-                end,
+                label = "Fill Jars",
                 icon = "fas fa-box",
-                event = "Drugs:Client:Moonshine:PickupBrew",
+                event = "Drugs:Client:Moonshine:PickupBrew", 
                 distance = 3.0,
                 canInteract = function(entity)
+                    if not entity then
+                        return false
+                    end
                     local entState = Entity(entity).state
-                    return entState?.isMoonshineBarrel and _barrels[entState.barrelId]?.pickupReady and
-                        (_barrels[entState.barrelId]?.owner == nil or _barrels[entState.barrelId]?.owner == LocalPlayer.state.Character:GetData("SID"))
+                    if not entState or not entState.isMoonshineBarrel then
+                        return false
+                    end
+                    -- Convert barrelId to number to ensure proper lookup
+                    local barrelId = tonumber(entState.barrelId)
+                    if not barrelId then
+                        return false
+                    end
+                    local barrel = _barrels[barrelId]
+                    if not barrel then
+                        return false
+                    end
+                    -- Check if barrel is ready
+                    if not barrel.pickupReady then
+                        return false
+                    end
+                    -- Check ownership
+                    local char = LocalPlayer.state.Character
+                    if not char then
+                        return false
+                    end
+                    local sid = char:GetData("SID")
+                    return barrel.owner == nil or barrel.owner == tostring(sid)
                 end,
             },
         })
@@ -151,6 +183,7 @@ AddEventHandler("Drugs:Client:Startup", function()
     end)
 
     exports["sandbox-base"]:RegisterClientCallback("Drugs:Moonshine:Use", function(data, cb)
+        -- data should be { quality = number, recipeId = string }
         Wait(400)
         exports['sandbox-games']:MinigamePlayRoundSkillbar(0.8, 8, {
             onSuccess = function()
@@ -372,64 +405,192 @@ AddEventHandler("Drugs:Client:Moonshine:PickupStill", function(entity, data)
     end
 end)
 
+-- Store recipe selection data
+local _recipeSelectionData = {}
+
 AddEventHandler("Drugs:Client:Moonshine:StartCook", function(entity, data)
     local entState = Entity(entity.entity).state
     if entState.isMoonshineStill and entState.stillId then
         exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:CheckStill", entState.stillId, function(s)
             if s then
-                exports['sandbox-hud']:Progress({
-                    name = "meth_pickup",
-                    duration = 5 * 1000,
-                    label = "Preparing",
-                    useWhileDead = false,
-                    canCancel = true,
-                    ignoreModifier = true,
-                    controlDisables = {
-                        disableMovement = true,
-                        disableCarMovement = true,
-                        disableMouse = false,
-                        disableCombat = true,
-                    },
-                    animation = {
-                        anim = "dj",
-                    },
-                }, function(status)
-                    if not status then
-                        local results = RunSkillChecks(_stillTiers[_stills[entState.stillId].tier]?.checks or 10)
-
-                        LocalPlayer.state.doingAction = false
-
-                        exports['sandbox-hud']:Progress({
-                            name = "meth_pickup",
-                            duration = 2 * 1000,
-                            label = "Finishing",
-                            useWhileDead = false,
-                            canCancel = false,
-                            ignoreModifier = true,
-                            controlDisables = {
-                                disableMovement = true,
-                                disableCarMovement = true,
-                                disableMouse = false,
-                                disableCombat = true,
-                            },
-                            animation = {
-                                anim = "dj",
-                            },
-                        }, function(status)
-                            if not status then
-                                exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:StartCooking", {
-                                    stillId = entState.stillId,
-                                    results = results
-                                })
-                            end
-                        end)
+                -- Get still data to store tier
+                local stillId = entState.stillId
+                local still = _stills[stillId]
+                local stillTier = 1
+                
+                if still and still.tier then
+                    stillTier = still.tier
+                end
+                
+                -- Get available recipes
+                exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:GetRecipes", {}, function(recipeData)
+                    if not recipeData then
+                        exports["sandbox-hud"]:Notification("error", "Failed to load recipes")
+                        return
                     end
+                    
+                    -- Store data for event handler (including tier)
+                    _recipeSelectionData.stillId = stillId
+                    _recipeSelectionData.stillTier = stillTier
+                    _recipeSelectionData.recipes = recipeData.recipes
+                    
+                    -- Show recipe selection menu
+                    local menuItems = {}
+                    for k, recipe in ipairs(recipeData.recipes) do
+                        local ingredientText = ""
+                        for i, ing in ipairs(recipe.ingredients) do
+                            ingredientText = ingredientText .. string.format("%d %s", ing.amount, ing.item)
+                            if i < #recipe.ingredients then
+                                ingredientText = ingredientText .. ", "
+                            end
+                        end
+                        
+                        table.insert(menuItems, {
+                            label = recipe.unlocked and recipe.label or (recipe.label .. " (Locked)"),
+                            description = recipe.unlocked and 
+                                string.format("%s\nIngredients: %s\nBase Quality: %d", recipe.description, ingredientText, recipe.baseQuality) or
+                                string.format("Requires %d reputation", recipe.requiredRep),
+                            event = "Drugs:Client:Moonshine:SelectRecipe",
+                            data = {
+                                recipeId = recipe.id,
+                            },
+                            disabled = not recipe.unlocked,
+                        })
+                    end
+                    
+                    exports['sandbox-hud']:ListMenuShow({
+                        main = {
+                            label = "Select Recipe",
+                            items = menuItems
+                        }
+                    })
                 end)
             else
                 exports["sandbox-hud"]:Notification("error", "Still Is Not Ready")
             end
         end)
     end
+end)
+
+-- Handle recipe selection
+AddEventHandler("Drugs:Client:Moonshine:SelectRecipe", function(data)
+    if not data or not data.recipeId or not _recipeSelectionData.stillId then
+        return
+    end
+    
+    local selectedRecipe = nil
+    for k, recipe in ipairs(_recipeSelectionData.recipes) do
+        if recipe.id == data.recipeId then
+            selectedRecipe = recipe
+            break
+        end
+    end
+    
+    if not selectedRecipe or not selectedRecipe.unlocked then
+        exports["sandbox-hud"]:Notification("error", "Recipe is locked or invalid")
+        return
+    end
+    
+    -- Use stored tier from when we started the cook
+    local stillTier = _recipeSelectionData.stillTier or 1
+    local tierData = _stillTiers[stillTier]
+    local checks = tierData and tierData.checks or 10
+    
+    -- Get temperature and weather (simplified - using time of day as temperature proxy)
+    local hour = GetClockHours()
+    local temperature = 20 -- Base temperature
+    if hour >= 6 and hour < 12 then
+        temperature = 15 + math.random(0, 10) -- Morning: 15-25
+    elseif hour >= 12 and hour < 18 then
+        temperature = 20 + math.random(0, 15) -- Afternoon: 20-35
+    elseif hour >= 18 and hour < 22 then
+        temperature = 15 + math.random(0, 10) -- Evening: 15-25
+    else
+        temperature = 5 + math.random(0, 10) -- Night: 5-15
+    end
+    
+    -- Get weather using export function
+    local currentWeather = exports["sandbox-sync"]:GetWeather() or "CLEAR"
+    local weatherName = "clear"
+    
+    -- Convert weather string to our config format
+    if currentWeather == "RAIN" then
+        weatherName = "rain"
+    elseif currentWeather == "THUNDER" then
+        weatherName = "thunder"
+    elseif currentWeather == "FOGGY" then
+        weatherName = "foggy"
+    elseif currentWeather == "CLOUDS" or currentWeather == "OVERCAST" or currentWeather == "CLEARING" then
+        weatherName = "clouds"
+    elseif currentWeather == "SNOW" or currentWeather == "SNOWLIGHT" or currentWeather == "BLIZZARD" or currentWeather == "XMAS" then
+        weatherName = "snow"
+    else
+        -- EXTRASUNNY, CLEAR, SMOG, etc. = clear
+        weatherName = "clear"
+    end
+    
+    exports['sandbox-hud']:Progress({
+        name = "moonshine_prepare",
+        duration = 5 * 1000,
+        label = "Preparing Ingredients",
+        useWhileDead = false,
+        canCancel = true,
+        ignoreModifier = true,
+        controlDisables = {
+            disableMovement = true,
+            disableCarMovement = true,
+            disableMouse = false,
+            disableCombat = true,
+        },
+        animation = {
+            anim = "dj",
+        },
+    }, function(status)
+        if not status then
+            local results = RunSkillChecks(checks)
+
+            LocalPlayer.state.doingAction = false
+
+            exports['sandbox-hud']:Progress({
+                name = "moonshine_finish",
+                duration = 2 * 1000,
+                label = "Starting Brew",
+                useWhileDead = false,
+                canCancel = false,
+                ignoreModifier = true,
+                controlDisables = {
+                    disableMovement = true,
+                    disableCarMovement = true,
+                    disableMouse = false,
+                    disableCombat = true,
+                },
+                animation = {
+                    anim = "dj",
+                },
+            }, function(status)
+                if not status then
+                    exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:StartCooking", {
+                        stillId = _recipeSelectionData.stillId,
+                        recipeId = selectedRecipe.id,
+                        results = results,
+                        temperature = temperature,
+                        weather = weatherName,
+                    }, function(success)
+                        if success then
+                            exports["sandbox-hud"]:Notification("success", "Brew started successfully!")
+                            -- Clear selection data after successful start
+                            _recipeSelectionData = {}
+                        else
+                            exports["sandbox-hud"]:Notification("error", "Failed to start brew. Check your ingredients and still status.")
+                        end
+                    end)
+                else
+                    -- User cancelled, clear selection data
+                    _recipeSelectionData = {}
+                end
+            end)
+        end
+    end)
 end)
 
 AddEventHandler("Drugs:Client:Moonshine:PickupCook", function(entity, data)
@@ -466,36 +627,48 @@ end)
 
 AddEventHandler("Drugs:Client:Moonshine:PickupBrew", function(entity, data)
     local entState = Entity(entity.entity).state
-    if exports.ox_inventory:ItemsHas("moonshine_jar", (_barrels[entState.barrelId]?.brewData?.Drinks or 15), false) then
-        local entState = Entity(entity.entity).state
-        if entState.isMoonshineBarrel and entState.barrelId then
-            exports['sandbox-hud']:Progress({
-                name = "meth_pickup",
-                duration = 5 * 1000,
-                label = "Emptying Barrel",
-                useWhileDead = false,
-                canCancel = true,
-                ignoreModifier = true,
-                controlDisables = {
-                    disableMovement = true,
-                    disableCarMovement = true,
-                    disableMouse = false,
-                    disableCombat = true,
-                },
-                animation = {
-                    anim = "dj",
-                },
-            }, function(status)
-                if not status then
-                    exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:PickupBrew", entState.barrelId,
-                        function(s) end)
-                end
-            end)
-        end
-    else
-        exports["sandbox-hud"]:Notification("error", string.format("Missing Empty Jars (Requires %s Empty Jars",
-            (_barrels[entState.barrelId]?.brewData?.Drinks or 15)))
+    if not entState.isMoonshineBarrel or not entState.barrelId then
+        return
     end
+    
+    -- Convert barrelId to number for proper lookup
+    local barrelId = tonumber(entState.barrelId)
+    if not barrelId then
+        return
+    end
+    
+    local barrel = _barrels[barrelId]
+    if not barrel then
+        return
+    end
+    
+    local requiredJars = barrel.brewData?.Drinks or 15
+    
+    -- Always show the progress bar, server will check for jars
+    exports['sandbox-hud']:Progress({
+        name = "meth_pickup",
+        duration = 5 * 1000,
+        label = "Emptying Barrel",
+        useWhileDead = false,
+        canCancel = true,
+        ignoreModifier = true,
+        controlDisables = {
+            disableMovement = true,
+            disableCarMovement = true,
+            disableMouse = false,
+            disableCombat = true,
+        },
+        animation = {
+            anim = "dj",
+        },
+    }, function(status)
+        if not status then
+            exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:PickupBrew", barrelId,
+                function(success)
+                    -- Server will handle notifications for missing jars
+                end)
+        end
+    end)
 end)
 
 AddEventHandler("Drugs:Client:Moonshine:StillDetails", function(entity, data)
@@ -587,3 +760,89 @@ AddEventHandler("Drugs:Client:Moonshine:BarrelDetails", function(entity, data)
         end)
     end
 end)
+
+AddEventHandler("Drugs:Client:Moonshine:UpgradeStill", function(entity, data)
+    local entState = Entity(entity.entity).state
+    if entState.isMoonshineStill and entState.stillId then
+        exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:UpgradeStill", entState.stillId, function(success)
+            if success then
+                exports["sandbox-hud"]:Notification("success", "Still upgraded successfully!")
+            end
+        end)
+    end
+end)
+
+-- Police Alert Handler
+RegisterNetEvent("Drugs:Client:Moonshine:PoliceAlert", function(alertData)
+    if LocalPlayer.state.onDuty == "police" then
+        local playerCoords = GetEntityCoords(PlayerPedId())
+        local distance = #(vector3(alertData.coords.x, alertData.coords.y, alertData.coords.z) - playerCoords)
+        
+        if distance <= 100.0 then -- Detection radius
+            -- Create blip
+            local blip = AddBlipForCoord(alertData.coords.x, alertData.coords.y, alertData.coords.z)
+            SetBlipSprite(blip, 432)
+            SetBlipColour(blip, 1)
+            SetBlipScale(blip, 1.0)
+            BeginTextCommandSetBlipName("STRING")
+            AddTextComponentString("Suspicious Moonshine Activity")
+            EndTextCommandSetBlipName(blip)
+            
+            -- Remove blip after 5 minutes
+            SetTimeout(300000, function()
+                RemoveBlip(blip)
+            end)
+            
+            exports['sandbox-hud']:Notification("info", 
+                string.format("Moonshine activity detected! Heat: %d/100", alertData.heat))
+        end
+    end
+end)
+
+-- Delivery System
+CreateThread(function()
+    while true do
+        Wait(1000)
+        -- Check for delivery missions (could be triggered via command or phone app)
+    end
+end)
+
+-- Command to start delivery
+RegisterCommand("moonshinedelivery", function()
+    exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:GetDelivery", {}, function(deliveryData)
+        if deliveryData then
+            -- Create waypoint
+            SetNewWaypoint(deliveryData.coords.x, deliveryData.coords.y)
+            exports["sandbox-hud"]:Notification("success", 
+                string.format("Delivery mission started! Payment: $%d | Time limit: %d minutes", 
+                    deliveryData.payment, deliveryData.timeLimit / 60))
+            
+            -- Create delivery marker
+            CreateThread(function()
+                local deliveryBlip = AddBlipForCoord(deliveryData.coords.x, deliveryData.coords.y, deliveryData.coords.z)
+                SetBlipSprite(deliveryBlip, 1)
+                SetBlipColour(deliveryBlip, 5)
+                SetBlipRoute(deliveryBlip, true)
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString("Moonshine Delivery")
+                EndTextCommandSetBlipName(deliveryBlip)
+                
+                while #(GetEntityCoords(PlayerPedId()) - deliveryData.coords) > 5.0 do
+                    Wait(1000)
+                end
+                
+                -- Complete delivery
+                exports["sandbox-base"]:ServerCallback("Drugs:Moonshine:CompleteDelivery", deliveryData.id, function(success)
+                    if success then
+                        exports["sandbox-hud"]:Notification("success", "Delivery completed!")
+                    else
+                        exports["sandbox-hud"]:Notification("error", "Failed to complete delivery")
+                    end
+                    RemoveBlip(deliveryBlip)
+                end)
+            end)
+        else
+            exports["sandbox-hud"]:Notification("error", "Failed to start delivery mission")
+        end
+    end)
+end, false)

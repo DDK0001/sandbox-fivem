@@ -159,6 +159,78 @@ RegisterNetEvent("Drugs:Effects:Heal", function(quality)
 	exports['sandbox-hud']:RemoveBuffType("heal")
 end)
 
+-- Recipe-based moonshine effects
+RegisterNetEvent("Drugs:Effects:Moonshine", function(quality, recipeId)
+	if _healTime > 0 then
+		return
+	end
+
+	local addiction = LocalPlayer.state.Character:GetData("Addiction")?.Moonshine?.Factor or 0.0
+	
+	-- Get recipe effects from config
+	local recipe = nil
+	for k, v in ipairs(_moonshineRecipes) do
+		if v.id == recipeId then
+			recipe = v
+			break
+		end
+	end
+	
+	-- Fallback to classic if recipe not found
+	if not recipe or not recipe.effects then
+		recipe = {
+			effects = {
+				drunkAmount = 10,
+				healAmount = 5,
+				healDuration = 30,
+				stressRelief = 5,
+			}
+		}
+	end
+	
+	local effects = recipe.effects
+	
+	-- Apply quality multiplier to effects (higher quality = better effects)
+	local qualityMultiplier = 1.0 + (quality / 100)
+	
+	-- Calculate drunk amount (base from recipe, modified by quality)
+	local drunkAmount = math.ceil(effects.drunkAmount * qualityMultiplier)
+	exports['sandbox-status']:Add("PLAYER_DRUNK", drunkAmount)
+	
+	-- Apply stress relief
+	if effects.stressRelief and effects.stressRelief > 0 then
+		exports['sandbox-status']:Remove("PLAYER_STRESS", effects.stressRelief * qualityMultiplier, true)
+	end
+	
+	-- Calculate heal duration (reduced by addiction)
+	_healTime = math.ceil(effects.healDuration * qualityMultiplier * (1.0 - (addiction / 100)))
+	local healAmount = math.floor(effects.healAmount * qualityMultiplier)
+	
+	exports['sandbox-hud']:ApplyUniqueBuff("heal", _healTime, false)
+	
+	-- Show notification with recipe name
+	local recipeLabel = recipe.label or "Moonshine"
+	exports['sandbox-hud']:Notification("success", string.format("Drank %s! Quality: %d/100", recipeLabel, quality))
+	
+	-- Healing loop
+	while _healTime > 0 and not LocalPlayer.state.isDead do
+		local ped = PlayerPedId()
+		Wait(1000)
+		_healTime = _healTime - 1
+
+		local maxHp = GetEntityMaxHealth(ped)
+		local currHp = GetEntityHealth(ped)
+
+		if currHp + healAmount <= maxHp then
+			SetEntityHealth(ped, currHp + healAmount)
+		elseif currHp < maxHp then
+			SetEntityHealth(ped, maxHp)
+		end
+	end
+	_healTime = 0
+	exports['sandbox-hud']:RemoveBuffType("heal")
+end)
+
 RegisterNetEvent("Characters:Client:Spawned", function()
 	exports['sandbox-hud']:RegisterBuff("speed", "bolt-lightning", "#8419C2", -1, "timed")
 	exports['sandbox-hud']:RegisterBuff("armor", "shield-halved", "#4056b3", -1, "timed")

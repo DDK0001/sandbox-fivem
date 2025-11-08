@@ -4758,6 +4758,41 @@ return {
         client = {},
         server = {}
     },
+    ["corn"] = {
+        label = "Corn",
+        weight = 0.0,
+        degrade = nil,
+        client = {},
+        server = {}
+    },
+    ["apple"] = {
+        label = "Apple",
+        weight = 0.0,
+        degrade = nil,
+        client = {},
+        server = {}
+    },
+    ["peach"] = {
+        label = "Peach",
+        weight = 0.0,
+        degrade = nil,
+        client = {},
+        server = {}
+    },
+    ["cherry"] = {
+        label = "Cherry",
+        weight = 0.0,
+        degrade = nil,
+        client = {},
+        server = {}
+    },
+    ["honey"] = {
+        label = "Honey",
+        weight = 0.0,
+        degrade = nil,
+        client = {},
+        server = {}
+    },
     ["grain"] = {
         label = "Grain",
         weight = 0.0,
