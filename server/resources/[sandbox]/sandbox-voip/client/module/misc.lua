@@ -8,13 +8,13 @@ AddEventHandler("Characters:Client:Spawn", function()
                 if not hasSubmix then
                     SetAudioSubmixEffectParamInt(0, 0, `enabled`, 1)
                     hasSubmix = true
-                    Logger:Trace('VOIP', 'Adding Underwater Submix')
+                    exports["sandbox-base"]:LoggerTrace("VOIP", "Adding Underwater Submix")
                 end
             else
                 if hasSubmix then
                     SetAudioSubmixEffectParamInt(0, 0, `enabled`, 0)
                     hasSubmix = false
-                    Logger:Trace('VOIP', 'Removing Underwater Submix')
+                    exports["sandbox-base"]:LoggerTrace("VOIP", "Removing Underwater Submix")
                 end
             end
 
@@ -44,7 +44,7 @@ AddEventHandler("Vehicles:Client:EnterVehicle", function(veh, seat, class)
 	local vehmodel = GetEntityModel(veh)
     if IsThisModelAHeli(vehmodel) or IsThisModelAPlane(vehmodel) then
         if soundmix == false then
-            Logger:Trace('VOIP', 'Adding ATC Submix')
+            exports["sandbox-base"]:LoggerTrace("VOIP", "Adding ATC Submix")
             EnableSubmix()
             soundmix = true
         end
@@ -52,7 +52,7 @@ AddEventHandler("Vehicles:Client:EnterVehicle", function(veh, seat, class)
 end)
 
 AddEventHandler("Vehicles:Client:ExitVehicle", function(veh)
-	Logger:Trace('VOIP', 'Removing ATC Submix')
+	exports["sandbox-base"]:LoggerTrace('VOIP', 'Removing ATC Submix')
     DisableSubmix()
     soundmix = false
 end)
