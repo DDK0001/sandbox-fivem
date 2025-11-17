@@ -561,7 +561,7 @@ CREATE TABLE IF NOT EXISTS `dealer_data` (
   `profitPercentage` decimal(5,2) DEFAULT 0.00,
   `commission` decimal(5,2) DEFAULT 0.00,
   PRIMARY KEY (`dealership`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_records`;
 CREATE TABLE IF NOT EXISTS `dealer_records` (
@@ -579,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `dealer_records` (
   CONSTRAINT `seller` CHECK (json_valid(`seller`)),
   CONSTRAINT `buyer` CHECK (json_valid(`buyer`)),
   CONSTRAINT `vehicle` CHECK (json_valid(`vehicle`))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_records_buybacks`;
 CREATE TABLE IF NOT EXISTS `dealer_records_buybacks` (
@@ -597,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `dealer_records_buybacks` (
   CONSTRAINT `seller` CHECK (json_valid(`seller`)),
   CONSTRAINT `buyer` CHECK (json_valid(`buyer`)),
   CONSTRAINT `vehicle` CHECK (json_valid(`vehicle`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_showrooms`;
 CREATE TABLE IF NOT EXISTS `dealer_showrooms` (
@@ -605,7 +605,7 @@ CREATE TABLE IF NOT EXISTS `dealer_showrooms` (
   `showroom` longtext DEFAULT NULL,
   PRIMARY KEY (`dealership`),
   CONSTRAINT `showroom` CHECK (json_valid(`showroom`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_stock`;
 CREATE TABLE IF NOT EXISTS `dealer_stock` (
