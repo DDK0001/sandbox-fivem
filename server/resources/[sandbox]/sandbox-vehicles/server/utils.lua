@@ -38,7 +38,7 @@ local _trailerModels = {
 --     -- end
 -- end
 
-function CreateVehicle(type, model, coords, heading, useShitWay)
+function CreateVehicleFunc(type, model, coords, heading, useShitWay)
     if not useShitWay then
         if not heading then heading = 0.0 end
         if model ~= nil then

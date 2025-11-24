@@ -703,7 +703,7 @@ end)
 exports("OwnedSpawn", function(source, VIN, coords, heading, cb, extraData)
     exports['sandbox-vehicles']:OwnedGetVIN(VIN, function(vehicle)
         if vehicle and not exports['sandbox-vehicles']:OwnedGetActive(VIN) then
-            local spawnedVehicle = CreateVehicle(vehicle.ModelType, vehicle.Vehicle, coords,
+            local spawnedVehicle = CreateVehicleFunc(vehicle.ModelType, vehicle.Vehicle, coords,
                 (heading and heading + 0.0 or 0.0))
             if spawnedVehicle then
                 local vehState = Entity(spawnedVehicle).state
@@ -1091,7 +1091,7 @@ end)
 exports("SpawnTemp",
     function(source, model, modelType, coords, heading, cb, vehicleInfoData, properties, preDamage, suppliedPlate,
              suppliedVIN, spawnAsShit)
-        local spawnedVehicle = CreateVehicle(modelType, model, coords, heading, spawnAsShit)
+        local spawnedVehicle = CreateVehicleFunc(modelType, model, coords, heading, spawnAsShit)
         local vehState = Entity(spawnedVehicle).state
         local plate = suppliedPlate or exports['sandbox-vehicles']:PlateGenerate(true)
         vehState.VIN = suppliedVIN or exports['sandbox-vehicles']:VINGenerateLocal()
