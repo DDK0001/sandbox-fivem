@@ -4,6 +4,10 @@
 
 This is a heavily modified version of the Mythic Framework for Sandbox RP. It used to have  a custom component-based system - but now its using a fully custom exports system written from the bottom up with major improvements to make the framework run better, with all UIs built in React. This codebase is released with full permissions from the original Mythic Framework authors, Alzar & Dr. Nick.
 
+For questions, support, or community discussion, join my Discord server:
+
+[![Discord](https://img.shields.io/badge/Join%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/jPnHguCxNK)
+
 ---
 
 ## Dependencies
