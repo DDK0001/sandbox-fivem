@@ -535,6 +535,22 @@ local function Item(name, cb)
 end
 
 local function convertItemSlotOxToOld(item, inventoryId)
+    local createDate = nil
+    if item.metadata.degrade and item.metadata.durability then
+        if item.metadata.durability > 100 then
+            local currentTime = os.time()
+            local totalTime = item.metadata.degrade * 60
+            if item.metadata.durability > currentTime then
+                createDate = ((item.metadata.durability - currentTime) / totalTime) * 100
+            else
+                createDate = 0
+            end
+            createDate = math.max(0, math.min(100, createDate))
+        else
+            createDate = item.metadata.durability
+        end
+    end
+
     return item and {
         Slot = item.slot,
         Name = item.name,
@@ -542,7 +558,7 @@ local function convertItemSlotOxToOld(item, inventoryId)
         Owner = inventoryId,
         Quality = item.metadata?.Quality,
         MetaData = item.metadata,
-        CreateDate = item.metadata.degrade and item.metadata.durability - item.metadata.degrade
+        CreateDate = createDate
     } or nil
 end
 
