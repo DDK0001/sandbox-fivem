@@ -718,10 +718,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 50,
-			min = 6,
-			max = 10,
-		},
+            modifier = 50,
+            min = 6,
+            max = 10,
+        },
     },
     ["beanmachine"] = {
         label = "The Bean Machine",
@@ -751,10 +751,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 40,
-			min = 3,
-			max = 6,
-		},
+            modifier = 40,
+            min = 3,
+            max = 6,
+        },
     },
     ["hornys_cup"] = {
         label = "H Cup",
@@ -827,10 +827,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 40,
-			min = 3,
-			max = 6,
-		},
+            modifier = 40,
+            min = 3,
+            max = 6,
+        },
     },
     ["japanese_pan_noodles"] = {
         label = "Japanese Pan Noodles",
@@ -1747,7 +1747,15 @@ return {
         weight = 4000,
         degrade = 2592000,
         rarity = 2,
-        client = {},
+        stack = false,
+        client = {
+            add = function(count)
+                HandleItemState('LAPTOP', count, 'laptop')
+            end,
+            remove = function(count)
+                HandleItemState('LAPTOP', count, 'laptop')
+            end
+        },
         server = {}
     },
     ["redlight"] = {
@@ -2906,10 +2914,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 40,
-			min = 6,
-			max = 10,
-		}
+            modifier = 40,
+            min = 6,
+            max = 10,
+        }
     },
     ["donut_stack"] = {
         label = "Stack of Donuts",
@@ -5386,11 +5394,11 @@ return {
             },
         },
         server = {},
-		progressModifier = {
-			modifier = 70,
-			min = 2,
-			max = 4,
-		},
+        progressModifier = {
+            modifier = 70,
+            min = 2,
+            max = 4,
+        },
     },
     ["salad"] = {
         label = "Salad",
@@ -6003,10 +6011,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 40,
-			min = 6,
-			max = 10,
-		},
+            modifier = 40,
+            min = 6,
+            max = 10,
+        },
     },
     ["tommy_tea"] = {
         label = "Tommy Tea",
@@ -6029,10 +6037,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 60,
-			min = 2,
-			max = 4,
-		},
+            modifier = 60,
+            min = 2,
+            max = 4,
+        },
     },
     ["rusty_empty"] = {
         label = "Empty Donut Box",
@@ -6879,10 +6887,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 60,
-			min = 2,
-			max = 4,
-		},
+            modifier = 60,
+            min = 2,
+            max = 4,
+        },
     },
     ["mochi_blue"] = {
         label = "Blueberry Mochi",
@@ -6940,10 +6948,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 50,
-			min = 1,
-			max = 2,
-		},
+            modifier = 50,
+            min = 1,
+            max = 2,
+        },
     },
     ["iced_coffee"] = {
         label = "Iced Coffee",
@@ -6966,10 +6974,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 40,
-			min = 4,
-			max = 8,
-		},
+            modifier = 40,
+            min = 4,
+            max = 8,
+        },
     },
     ['matcha_latte'] = {
         label = "Matcha Latte",
@@ -6992,10 +7000,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 60,
-			min = 3,
-			max = 6,
-		},
+            modifier = 60,
+            min = 3,
+            max = 6,
+        },
     },
     ["blueberry_boba"] = {
         label = "Blueberry Boba",
@@ -7039,10 +7047,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 60,
-			min = 3,
-			max = 6,
-		},
+            modifier = 60,
+            min = 3,
+            max = 6,
+        },
     },
     ["cat_tuccino"] = {
         label = "Cat Tuccino",
@@ -7065,10 +7073,10 @@ return {
         },
         server = {},
         progressModifier = {
-			modifier = 40,
-			min = 6,
-			max = 10,
-		},
+            modifier = 40,
+            min = 6,
+            max = 10,
+        },
     },
     ["frozen_yoghurt"] = {
         label = "Frozen Yoghurt",
