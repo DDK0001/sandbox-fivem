@@ -84,7 +84,8 @@ exports("LoansCreateVehicleLoan", function(targetSource, VIN, totalCost, downPay
 			{ doc.Creation, doc.SID, doc.Type, doc.AssetIdentifier, doc.Defaulted and 1 or 0, doc.InterestRate, doc
 				.Total, doc.Remaining, doc.Paid, doc.DownPayment, doc.TotalPayments, doc.PaidPayments, doc
 				.MissablePayments, doc.MissedPayments, doc.TotalMissedPayments, doc.NextPayment, doc.LastPayment },
-			function(insertId)
+			function(result)
+				local insertId = type(result) == "table" and result.insertId or result
 				if insertId and insertId > 0 then
 					p:resolve(true)
 				else
@@ -130,7 +131,8 @@ exports("LoansCreatePropertyLoan", function(targetSource, propertyId, totalCost,
 			{ doc.Creation, doc.SID, doc.Type, doc.AssetIdentifier, doc.Defaulted and 1 or 0, doc.InterestRate, doc
 				.Total, doc.Remaining, doc.Paid, doc.DownPayment, doc.TotalPayments, doc.PaidPayments, doc
 				.MissablePayments, doc.MissedPayments, doc.TotalMissedPayments, doc.NextPayment, doc.LastPayment },
-			function(insertId)
+			function(result)
+				local insertId = type(result) == "table" and result.insertId or result
 				if insertId and insertId > 0 then
 					p:resolve(true)
 				else
