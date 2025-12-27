@@ -25,8 +25,8 @@ local evidenceMarkers = {
 	paint_fragment = { label = "Paint Fragment", marker = 36, scale = 0.2, textZOffset = 0.2 },
 }
 
-AddEventHandler("Weapons:Client:SwitchedWeapon", function(weapon)
-	if weapon == "WEAPON_FLASHLIGHT" then
+AddEventHandler('ox_inventory:currentWeapon', function(currentWeapon)
+	if currentWeapon and currentWeapon.name == "WEAPON_FLASHLIGHT" then
 		ignoreFreeAim = false
 		StartInspecting()
 	else

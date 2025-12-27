@@ -1,5 +1,6 @@
 local _noUpdate = { "Source", "User", "_id", "ID", "First", "Last", "Phone", "DOB", "Gender", "TempJob", "Ped",
-	"MDTHistory", "Parole", "Preview", "Team", "LSUNDGBan", "MDTSuspension", "Profiles", "TempJob", "License" }
+	"MDTHistory", "Parole", "Preview", "Team", "LSUNDGBan", "MDTSuspension", "Profiles", "TempJob", "License",
+	"Inventory" }
 
 local _saving = {}
 

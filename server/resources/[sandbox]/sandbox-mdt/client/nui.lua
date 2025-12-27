@@ -91,8 +91,7 @@ RegisterNUICallback("FindProperty", function(data, cb)
 end)
 
 RegisterNUICallback("EvidenceLocker", function(data, cb)
-	cb(true)
-	exports["sandbox-base"]:ServerCallback("MDT:OpenEvidenceLocker", data)
+    exports["sandbox-base"]:ServerCallback("MDT:OpenEvidenceLocker", data, cb)
 end)
 
 RegisterNUICallback("PrintBadge", function(data, cb)

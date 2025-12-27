@@ -133,7 +133,6 @@ RegisterNetEvent("Characters:Client:Spawn", function()
 
 		while LocalPlayer.state.loggedIn do
 			Wait(1000)
-			--TriggerServerEvent('mythic_pwnzor:server:PingCheck', securityToken, isLoggedIn)
 			local playerPed = PlayerPedId()
 			if playerPed and not afkCd and not isAfk and not (GlobalState["DisableAFK"] or false) then
 				currentPos = GetEntityCoords(playerPed)

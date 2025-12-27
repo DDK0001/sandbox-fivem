@@ -78,12 +78,10 @@ function RegisterCallbacks()
             local vehiclesProcessed = 0
             local totalQueries = 1
             
-            -- Determine total queries up front
             if fleetFetch and fleetFetch.Id then
                 totalQueries = 2
             end
 
-            -- Query for personal vehicles
             exports['sandbox-vehicles']:OwnedGetAll(storageData.vehType, 0, characterId, function(personalVehicles)
                 if personalVehicles then
                     for k, v in ipairs(personalVehicles) do
@@ -106,7 +104,6 @@ function RegisterCallbacks()
                 GovAssigned = 1,
             })
 
-            -- Query for fleet vehicles if player has fleet access
             if fleetFetch and fleetFetch.Id then
                 exports['sandbox-vehicles']:OwnedGetAll(storageData.vehType, false, false, function(fleetVehicles)
                     if fleetVehicles then
@@ -176,7 +173,7 @@ function RegisterCallbacks()
                     end
                 
                     cb(vehicles, {
-                        current = Vehicles.Owned.Properties:GetCount(storageId),
+                        current = exports['sandbox-vehicles']:OwnedPropertiesGetCount(storageId),
                         max = maxParking or 0
                     }, characterId, dumbShit)
                 else
@@ -220,7 +217,6 @@ function RegisterCallbacks()
                     local onDuty = Player(source).state.onDuty
 
                     if onDuty and onDuty == vehicle.Owner.Id then
-                        -- Convert 0 or false to nil for workplace
                         local workplace = vehicle.Owner.Workplace
                         if workplace == 0 or workplace == false then
                             workplace = nil
@@ -239,6 +235,23 @@ function RegisterCallbacks()
                             end
                         end
                     end
+                end
+
+                if isAuthedForVehicle and vehicle.Owner.Type == 1 and vehicle.GovAssigned and type(vehicle.GovAssigned) == 'table' and #vehicle.GovAssigned > 0 and not data.fleetManagement then
+                    local isAssignedToPlayer = false
+                    for _, assignee in ipairs(vehicle.GovAssigned) do
+                        if assignee.SID and tostring(assignee.SID) == tostring(characterId) then
+                            isAssignedToPlayer = true
+                            break
+                        end
+                    end
+                    
+                    if not isAssignedToPlayer then
+                        isAuthedForVehicle = false
+                        exports['sandbox-hud']:Notification(source, "error", 'This vehicle is assigned to specific personnel only')
+                    end
+                elseif data.fleetManagement then
+                    exports['sandbox-hud']:Notification(source, "error", 'Cannot Retrieve Vehicles Via Fleet Management')
                 end
 
                 if isAuthedForVehicle then
@@ -293,7 +306,6 @@ function RegisterCallbacks()
                 local onDuty = Player(source).state.onDuty
 
                 if onDuty and onDuty == vehicleOwner.Id then
-                    -- Convert 0 or false to nil for workplace
                     local workplace = vehicleOwner.Workplace
                     if workplace == 0 or workplace == false then
                         workplace = nil
@@ -376,7 +388,7 @@ function RegisterCallbacks()
                     vehLimit = 0
                 end
 
-                if Vehicles.Owned.Properties:GetCount(data.storageId, vehicle:GetData('VIN')) < vehLimit then
+                if exports['sandbox-vehicles']:OwnedPropertiesGetCount(data.storageId, vehicle:GetData('VIN')) < vehLimit then
                     exports['sandbox-vehicles']:OwnedStore(data.VIN, 2, data.storageId, function(success)
                         cb(success)
                     end)
@@ -526,6 +538,21 @@ function RegisterCallbacks()
 
         exports['sandbox-vehicles']:OwnedGetVIN(data.VIN, function(vehicle)
             if vehicle and vehicle.VIN and vehicle.Storage.Type == 0 and not vehicle.Seized then
+                if vehicle.Owner.Type == 1 and vehicle.GovAssigned and type(vehicle.GovAssigned) == 'table' and #vehicle.GovAssigned > 0 then
+                    local isAssignedToPlayer = false
+                    for _, assignee in ipairs(vehicle.GovAssigned) do
+                        if assignee.SID and tostring(assignee.SID) == tostring(characterId) then
+                            isAssignedToPlayer = true
+                            break
+                        end
+                    end
+                    
+                    if not isAssignedToPlayer then
+                        exports['sandbox-hud']:Notification(source, "error", 'This vehicle is assigned to specific personnel only')
+                        cb(false)
+                        return
+                    end
+                end
 
                 if vehicle.Storage.Fine and vehicle.Storage.Fine > 0 then
                     if not exports['sandbox-finance']:WalletModify(source, -vehicle.Storage.Fine) then

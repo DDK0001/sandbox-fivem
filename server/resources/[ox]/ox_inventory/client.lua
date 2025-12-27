@@ -522,6 +522,8 @@ lib.callback.register('ox_inventory:usingItem', function(data, noAnim)
             useWhileDead = item.useWhileDead,
             canCancel = (item.cancel ~= false),
             controlDisables = disables,
+            ignoreModifier = item.ignoreModifier ~= false,
+            disarm = item.disarm ~= false,
         }
 
         if item.anim then

@@ -5,6 +5,61 @@ AddEventHandler('onClientResourceStart', function(resource)
 	end
 end)
 
+function GetBusinessClockInMenu(businessName)
+	return {
+		{
+			icon = "fas fa-clipboard-check",
+			label = "Clock In",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockIn", { job = businessName })
+			end,
+			groups = { businessName },
+			reqOffDuty = true,
+		},
+		{
+			icon = "fas fa-clipboard",
+			label = "Clock Out",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockOut", { job = businessName })
+			end,
+			groups = { businessName },
+			reqDuty = true,
+		},
+	}
+end
+
+function GetBusinessClockInMenuWithTV(businessName)
+	return {
+		{
+			icon = "fas fa-clipboard-check",
+			label = "Clock In",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockIn", { job = businessName })
+			end,
+			groups = { businessName },
+			reqOffDuty = true,
+		},
+		{
+			icon = "fas fa-clipboard",
+			label = "Clock Out",
+			onSelect = function()
+					TriggerEvent("Restaurant:Client:ClockOut", { job = businessName })
+			end,
+			groups = { businessName },
+			reqDuty = true,
+		},
+		{
+			icon = "fas fa-tv",
+			label = "Set TV Link",
+			onSelect = function()
+					TriggerEvent("Billboards:Client:SetLink", { job = businessName })
+			end,
+			groups = { businessName },
+			reqDuty = true,
+		},
+	}
+end
+
 function Startup()
 	exports.ox_target:addBoxZone({
 		id = "burgershot-clockinoff",
@@ -14,26 +69,7 @@ function Startup()
 		debug = false,
 		minZ = 13.39,
 		maxZ = 14.59,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "burgershot" })
-				end,
-				groups = { "burgershot" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "burgershot" })
-				end,
-				groups = { "burgershot" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("burgershot")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -44,26 +80,7 @@ function Startup()
 		debug = false,
 		minZ = 103.65,
 		maxZ = 107.65,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "rustybrowns" })
-				end,
-				groups = { "rustybrowns" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "rustybrowns" })
-				end,
-				groups = { "rustybrowns" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("rustybrowns")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -74,26 +91,7 @@ function Startup()
 		debug = false,
 		minZ = 86.41,
 		maxZ = 87.41,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "lasttrain" })
-				end,
-				groups = { "lasttrain" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "lasttrain" })
-				end,
-				groups = { "lasttrain" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenuWithTV("lasttrain")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -104,26 +102,7 @@ function Startup()
 		debug = false,
 		minZ = 27.06,
 		maxZ = 28.66,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "triad" })
-				end,
-				groups = { "triad" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "triad" })
-				end,
-				groups = { "triad" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("triad")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -134,26 +113,7 @@ function Startup()
 		debug = false,
 		minZ = 21.94,
 		maxZ = 23.94,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "uwu" })
-				end,
-				groups = { "uwu" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "uwu" })
-				end,
-				groups = { "uwu" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("uwu")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -164,26 +124,7 @@ function Startup()
 		debug = false,
 		minZ = 30.27,
 		maxZ = 32.07,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "pizza_this" })
-				end,
-				groups = { "pizza_this" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "pizza_this" })
-				end,
-				groups = { "pizza_this" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("pizzathis")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -194,26 +135,7 @@ function Startup()
 		debug = false,
 		minZ = 11.56,
 		maxZ = 13.36,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "avast_arcade" })
-				end,
-				groups = { "avast_arcade" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "avast_arcade" })
-				end,
-				groups = { "avast_arcade" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("avast_arcade")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -281,26 +203,7 @@ function Startup()
 		debug = false,
 		minZ = 28.48,
 		maxZ = 31.48,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "beanmachine" })
-				end,
-				groups = { "beanmachine" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "beanmachine" })
-				end,
-				groups = { "beanmachine" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("beanmachine")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -311,26 +214,7 @@ function Startup()
 		debug = false,
 		minZ = 29.07,
 		maxZ = 30.07,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "unicorn" })
-				end,
-				groups = { "unicorn" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "unicorn" })
-				end,
-				groups = { "unicorn" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("unicorn")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -341,26 +225,7 @@ function Startup()
 		debug = false,
 		minZ = 28.37,
 		maxZ = 30.77,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "unicorn" })
-				end,
-				groups = { "unicorn" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "unicorn" })
-				end,
-				groups = { "unicorn" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("unicorn")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -371,26 +236,7 @@ function Startup()
 		debug = false,
 		minZ = 29.32,
 		maxZ = 31.32,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "bahama" })
-				end,
-				groups = { "bahama" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "bahama" })
-				end,
-				groups = { "bahama" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("bahama")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -401,26 +247,7 @@ function Startup()
 		debug = false,
 		minZ = 29.32,
 		maxZ = 31.32,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "bahama" })
-				end,
-				groups = { "bahama" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "bahama" })
-				end,
-				groups = { "bahama" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("bahama")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -431,26 +258,7 @@ function Startup()
 		debug = false,
 		minZ = 36.39,
 		maxZ = 37.99,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "bakery" })
-				end,
-				groups = { "bakery" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "bakery" })
-				end,
-				groups = { "bakery" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("bakery")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -461,26 +269,7 @@ function Startup()
 		debug = false,
 		minZ = 6.67,
 		maxZ = 8.87,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "noodle" })
-				end,
-				groups = { "noodle" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "noodle" })
-				end,
-				groups = { "noodle" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("noodle")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -491,26 +280,7 @@ function Startup()
 		debug = false,
 		minZ = 81.58,
 		maxZ = 83.38,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "tequila" })
-				end,
-				groups = { "tequila" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "tequila" })
-				end,
-				groups = { "tequila" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("tequila")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -521,26 +291,7 @@ function Startup()
 		debug = false,
 		minZ = 38.44,
 		maxZ = 40.24,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "rockford_records" })
-				end,
-				groups = { "rockford_records" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "rockford_records" })
-				end,
-				groups = { "rockford_records" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("rockford_records")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -551,26 +302,7 @@ function Startup()
 		debug = false,
 		minZ = 37.6,
 		maxZ = 39.4,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "rockford_records" })
-				end,
-				groups = { "rockford_records" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "rockford_records" })
-				end,
-				groups = { "rockford_records" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("rockford_records")
 	})
 
 	exports.ox_target:addBoxZone({
@@ -581,26 +313,7 @@ function Startup()
 		debug = false,
 		minZ = 4.71,
 		maxZ = 6.71,
-		options = {
-			{
-				icon = "clipboard-check",
-				label = "Clock In",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockIn", { job = "prego" })
-				end,
-				groups = { "prego" },
-				reqOffDuty = true,
-			},
-			{
-				icon = "clipboard",
-				label = "Clock Out",
-				onSelect = function()
-					TriggerEvent("Restaurant:Client:ClockOut", { job = "prego" })
-				end,
-				groups = { "prego" },
-				reqDuty = true,
-			},
-		}
+		options = GetBusinessClockInMenu("prego")
 	})
 end
 
@@ -618,7 +331,7 @@ RegisterNetEvent("Restaurant:Client:CreatePoly", function(pickups, warmersList, 
 				maxZ = data.options.maxZ,
 				options = {
 					{
-						icon = "fork-knife",
+						icon = "fas fa-box-open",
 						label = string.format("Pickup Order (#%s)", data.num),
 						onSelect = function()
 							TriggerEvent("Restaurant:Client:Pickup", data.data)
@@ -626,35 +339,32 @@ RegisterNetEvent("Restaurant:Client:CreatePoly", function(pickups, warmersList, 
 						distance = data.driveThru and 5.0 or 2.0,
 					},
 					{
-						icon = "money-check-dollar-pen",
+						icon = "fas fa-money-check-dollar",
 						label = "Set Contactless Payment",
 						onSelect = function()
 							TriggerEvent("Businesses:Client:CreateContactlessPayment", data)
 						end,
 						groups = { data.job },
+						reqDuty = true,
 						canInteract = function()
 							return not GlobalState[string.format("PendingContactless:%s", data.id)]
 						end,
 					},
 					{
-						icon = "money-check-dollar-pen",
+						icon = "fas fa-money-check-dollar",
 						label = "Clear Contactless Payment",
 						onSelect = function()
 							TriggerEvent("Businesses:Client:ClearContactlessPayment", data)
 						end,
 						groups = { data.job },
+						reqDuty = true,
 						canInteract = function()
 							return GlobalState[string.format("PendingContactless:%s", data.id)]
 						end,
 					},
 					{
-						icon = "money-check-dollar",
-						label = function()
-							if GlobalState[string.format("PendingContactless:%s", data.id)] and GlobalState[string.format("PendingContactless:%s", data.id)] > 0 then
-								return string.format("Pay Contactless ($%s)",
-									GlobalState[string.format("PendingContactless:%s", data.id)])
-							end
-						end,
+						icon = "fas fa-money-check-dollar",
+						label = "Pay Contactless Payment",
 						onSelect = function()
 							TriggerEvent("Businesses:Client:PayContactlessPayment", data)
 						end,

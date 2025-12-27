@@ -287,8 +287,8 @@ function RegisterVehicleSaleCallbacks()
                                                                 saleVehicleData.data.make, saleVehicleData.data.model),
                                                             function(wasPayed, withAccount)
                                                                 if wasPayed then
-                                                                    local preGenerateVIN = Vehicles.Identification.VIN
-                                                                        :GenerateOwned()
+                                                                    local preGenerateVIN = exports['sandbox-vehicles']
+                                                                        :VINGenerateOwned()
 
                                                                     local loanSuccess = exports['sandbox-finance']
                                                                         :LoansCreateVehicleLoan(

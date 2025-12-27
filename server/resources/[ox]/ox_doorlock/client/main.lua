@@ -1,5 +1,6 @@
 if not LoadResourceFile(cache.resource, 'web/build/index.html') then
-	error('Unable to load UI. Build ox_doorlock or download the latest release.\n	^3https://github.com/communityox/ox_doorlock/releases/latest/download/ox_doorlock.zip^0')
+	error(
+		'Unable to load UI. Build ox_doorlock or download the latest release.\n	^3https://github.com/communityox/ox_doorlock/releases/latest/download/ox_doorlock.zip^0')
 end
 
 if not lib.checkDependency('ox_lib', '3.30.4', true) then return end
@@ -10,7 +11,8 @@ local function createDoor(door)
 
 	if double then
 		for i = 1, 2 do
-			AddDoorToSystem(double[i].hash, double[i].model, double[i].coords.x, double[i].coords.y, double[i].coords.z, false, false, false)
+			AddDoorToSystem(double[i].hash, double[i].model, double[i].coords.x, double[i].coords.y, double[i].coords.z,
+				false, false, false)
 			DoorSystemSetDoorState(double[i].hash, 4, false, false)
 			DoorSystemSetDoorState(double[i].hash, door.state, false, false)
 
@@ -51,7 +53,8 @@ lib.callback('ox_doorlock:getDoors', false, function(data)
 				if door.distance < 80 then
 					for i = 1, 2 do
 						if not double[i].entity and IsModelValid(double[i].model) then
-							local entity = GetClosestObjectOfType(double[i].coords.x, double[i].coords.y, double[i].coords.z, 1.0, double[i].model, false, false, false)
+							local entity = GetClosestObjectOfType(double[i].coords.x, double[i].coords.y,
+								double[i].coords.z, 1.0, double[i].model, false, false, false)
 
 							if entity ~= 0 then
 								double[i].entity = entity
@@ -70,7 +73,8 @@ lib.callback('ox_doorlock:getDoors', false, function(data)
 				end
 			elseif door.distance < 80 then
 				if not door.entity and IsModelValid(door.model) then
-					local entity = GetClosestObjectOfType(door.coords.x, door.coords.y, door.coords.z, 1.0, door.model, false, false, false)
+					local entity = GetClosestObjectOfType(door.coords.x, door.coords.y, door.coords.z, 1.0, door.model,
+						false, false, false)
 
 					if entity ~= 0 then
 						local min, max = GetModelDimensions(door.model)
@@ -126,27 +130,27 @@ RegisterNetEvent('ox_doorlock:setState', function(id, state, source, data)
 	end
 
 	if Config.Notify and source == cache.serverId then
-	    if Config.NotifyType == 'ox' then
-	        if state == 0 then
-	            lib.notify({
-	                type = 'success',
-	                icon = 'unlock',
-	                description = locale('unlocked_door')
-	            })
-	        else
-	            lib.notify({
-	                type = 'success',
-	                icon = 'lock',
-	                description = locale('locked_door')
-	            })
-	        end
-	    elseif Config.NotifyType == 'sandbox' then
-	        if state == 0 then
-	            exports['sandbox-hud']:Notification("success", locale('unlocked_door'), 3500)
-	        else
-	            exports['sandbox-hud']:Notification("error", locale('locked_door'), 3500)
-	        end
-	    end
+		if Config.NotifyType == 'ox' then
+			if state == 0 then
+				lib.notify({
+					type = 'success',
+					icon = 'unlock',
+					description = locale('unlocked_door')
+				})
+			else
+				lib.notify({
+					type = 'success',
+					icon = 'lock',
+					description = locale('locked_door')
+				})
+			end
+		elseif Config.NotifyType == 'sandbox' then
+			if state == 0 then
+				exports['sandbox-hud']:Notification("success", locale('unlocked_door'), 3500)
+			else
+				exports['sandbox-hud']:Notification("error", locale('locked_door'), 3500)
+			end
+		end
 	end
 
 	local door = data or doors[id]
@@ -176,7 +180,8 @@ RegisterNetEvent('ox_doorlock:setState', function(id, state, source, data)
 			local sound = state == 0 and door.unlockSound or door.lockSound or 'door_bolt'
 			local soundId = GetSoundId()
 
-			PlaySoundFromCoord(soundId, sound, door.coords.x, door.coords.y, door.coords.z, 'DLC_OXDOORLOCK_SET', false, 0, false)
+			PlaySoundFromCoord(soundId, sound, door.coords.x, door.coords.y, door.coords.z, 'DLC_OXDOORLOCK_SET', false,
+				0, false)
 			ReleaseSoundId(soundId)
 			ReleaseNamedScriptAudioBank('dlc_oxdoorlock/oxdoorlock')
 		else
@@ -288,8 +293,8 @@ local function useClosestDoor()
 end
 
 CreateThread(function()
-	local lockDoor = locale('lock_door')
-	local unlockDoor = locale('unlock_door')
+	local lockDoor = "{key}E{/key} " .. locale('lock_door')
+	local unlockDoor = "{key}E{/key} " .. locale('unlock_door')
 	local showUI
 	local drawSprite = Config.DrawSprite
 
@@ -328,37 +333,40 @@ CreateThread(function()
 
 						if sprite then
 							SetDrawOrigin(door.coords.x, door.coords.y, door.coords.z)
-							DrawSprite(sprite[1], sprite[2], sprite[3], sprite[4], sprite[5], sprite[6] * ratio, sprite[7], sprite[8], sprite[9], sprite[10], sprite[11])
+							DrawSprite(sprite[1], sprite[2], sprite[3], sprite[4], sprite[5], sprite[6] * ratio,
+								sprite[7], sprite[8], sprite[9], sprite[10], sprite[11])
 							ClearDrawOrigin()
 						end
 					end
 				end
 			end
-		else ClosestDoor = nil end
+		else
+			ClosestDoor = nil
+		end
 
 		if ClosestDoor and ClosestDoor.distance < ClosestDoor.maxDistance then
-		    if Config.DrawTextUI and not ClosestDoor.hideUi and ClosestDoor.state ~= showUI then
-		        if Config.DrawTextUIType == 'ox' then
-		            lib.showTextUI(ClosestDoor.state == 0 and lockDoor or unlockDoor)
-		        elseif Config.DrawTextUIType == 'sandbox' then
-		            exports['sandbox-hud']:ActionShow(
-		                "door_action",
-		                ClosestDoor.state == 0 and lockDoor or unlockDoor
-		            )
-		        end
-		        showUI = ClosestDoor.state
-		    end
-		
-		    if not PickingLock and IsDisabledControlJustReleased(0, 38) then
-		        useClosestDoor()
-		    end
+			if Config.DrawTextUI and not ClosestDoor.hideUi and ClosestDoor.state ~= showUI then
+				if Config.DrawTextUIType == 'ox' then
+					lib.showTextUI(ClosestDoor.state == 0 and lockDoor or unlockDoor)
+				elseif Config.DrawTextUIType == 'sandbox' then
+					exports['sandbox-hud']:ActionShow(
+						"door_action",
+						ClosestDoor.state == 0 and lockDoor or unlockDoor
+					)
+				end
+				showUI = ClosestDoor.state
+			end
+
+			if not PickingLock and IsDisabledControlJustReleased(0, 38) then
+				useClosestDoor()
+			end
 		elseif showUI then
-		    if Config.DrawTextUIType == 'ox' then
-		        lib.hideTextUI()
-		    elseif Config.DrawTextUIType == 'sandbox' then
-		        exports['sandbox-hud']:ActionHide("door_action")
-		    end
-		    showUI = nil
+			if Config.DrawTextUIType == 'ox' then
+				lib.hideTextUI()
+			elseif Config.DrawTextUIType == 'sandbox' then
+				exports['sandbox-hud']:ActionHide("door_action")
+			end
+			showUI = nil
 		end
 
 		Wait(num > 0 and 0 or 500)

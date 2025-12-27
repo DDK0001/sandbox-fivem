@@ -50,7 +50,7 @@ exports("PeopleView", function(id, requireAllData)
 	local SID = tonumber(id)
 
 	local character = MySQL.single.await(
-		"SELECT SID, User, First, Last, Gender, Origin, Jobs, DOB, Callsign, Phone, Licenses, Qualifications, MDTSystemAdmin, MDTHistory, Attorney, LastClockOn, TimeClockedOn FROM characters WHERE SID = ? AND (Deleted = 0 OR Deleted IS NULL)",
+		"SELECT SID, User, First, Last, Gender, Origin, Jobs, DOB, Callsign, Phone, Licenses, Qualifications, Flags, MDTSystemAdmin, MDTHistory, Attorney, LastClockOn, TimeClockedOn FROM characters WHERE SID = ? AND (Deleted = 0 OR Deleted IS NULL)",
 		{ SID }
 	)
 
@@ -78,6 +78,9 @@ exports("PeopleView", function(id, requireAllData)
 		elseif type(character.Qualifications) ~= "table" then
 			character.Qualifications = {}
 		end
+	end
+	if character.Flags then
+		character.Flags = json.decode(character.Flags)
 	end
 	if character.MDTHistory then
 		character.MDTHistory = json.decode(character.MDTHistory)
@@ -188,11 +191,11 @@ AddEventHandler("MDT:Server:RegisterCallbacks", function()
 		MySQL.query(
 			"SELECT SID, First, Last, DOB, Licenses FROM characters WHERE (CONCAT(First, ' ', Last) LIKE ? OR SID LIKE ?) AND (Deleted = 0 OR Deleted IS NULL) LIMIT 4",
 			{ "%" .. data.term .. "%", "%" .. data.term .. "%" },
-			function(success, results)
-				if not success then
-					cb({})
+			function(results)
+				if type(results) == "table" then
+					cb(results)
 				else
-					cb(results or {})
+					cb({})
 				end
 			end
 		)
@@ -201,13 +204,14 @@ AddEventHandler("MDT:Server:RegisterCallbacks", function()
 	exports["sandbox-base"]:RegisterServerCallback("MDT:InputSearch:job", function(source, data, cb)
 		if CheckMDTPermissions(source, false) then
 			MySQL.query(
-				"SELECT SID, First, Last, Callsign FROM characters WHERE (CONCAT(First, ' ', Last) LIKE ? OR Callsign LIKE ? OR SID LIKE ?) AND JSON_CONTAINS(Jobs, JSON_OBJECT('Id', ?)) AND (Deleted = 0 OR Deleted IS NULL) LIMIT 4",
-				{ "%" .. data.term .. "%", "%" .. data.term .. "%", "%" .. data.term .. "%", data.job },
-				function(success, results)
-					if not success then
-						cb({})
+				"SELECT SID, First, Last, Callsign FROM characters WHERE (CONCAT(First, ' ', Last) LIKE ? OR Callsign LIKE ? OR SID LIKE ?) AND Jobs LIKE ? AND (Deleted = 0 OR Deleted IS NULL) LIMIT 4",
+				{ "%" .. data.term .. "%", "%" .. data.term .. "%", "%" .. data.term .. "%", '%"Id":"' ..
+				data.job .. '"%' },
+				function(results)
+					if type(results) == "table" then
+						cb(results)
 					else
-						cb(results or {})
+						cb({})
 					end
 				end
 			)
@@ -221,11 +225,11 @@ AddEventHandler("MDT:Server:RegisterCallbacks", function()
 			MySQL.single(
 				"SELECT SID, First, Last, DOB, Licenses FROM characters WHERE SID = ? AND (Deleted = 0 OR Deleted IS NULL)",
 				{ tonumber(data.term) },
-				function(success, results)
-					if not success then
-						cb({})
+				function(results)
+					if type(results) == "table" then
+						cb({ results })
 					else
-						cb(results and { results } or {})
+						cb({})
 					end
 				end
 			)

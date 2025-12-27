@@ -26,7 +26,7 @@ AddEventHandler("Robbery:Client:Setup", function()
         maxZ = atmRobbery.options.maxZ,
         options = {
             {
-                icon = "eye-evil",
+                icon = "fas fa-eye-slash",
                 label = "Do Illegal Things",
                 event = "Robbery:Client:ATM:UseTerminal",
                 item = "vpn",
@@ -41,7 +41,7 @@ AddEventHandler("Robbery:Client:Setup", function()
         exports.ox_target:addModel(v, {
             {
                 label = "Run Exploit",
-                icon = 'eye-evil',
+                icon = 'fas fa-eye-slash',
                 event = "Robbery:Client:ATM:StartHack",
                 distance = 2.0,
                 canInteract = function()

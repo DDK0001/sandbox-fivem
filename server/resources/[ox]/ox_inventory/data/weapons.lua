@@ -904,7 +904,8 @@ return {
                     `COMPONENT_AT_PI_FLSH_02`,
                     `COMPONENT_AT_PI_FLSH_03`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -920,7 +921,8 @@ return {
                     `COMPONENT_CERAMICPISTOL_SUPP`,
                     `COMPONENT_PISTOLXM3_SUPP`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -936,7 +938,8 @@ return {
                     `COMPONENT_AT_SR_SUPP`,
                     `COMPONENT_AT_SR_SUPP_03`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -949,7 +952,8 @@ return {
                     `COMPONENT_AT_AR_AFGRIP`,
                     `COMPONENT_AT_AR_AFGRIP_02`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -968,7 +972,8 @@ return {
                     `COMPONENT_AT_SC_BARREL_02`,
                     `COMPONENT_AT_SR_BARREL_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -991,7 +996,8 @@ return {
                     `COMPONENT_VINTAGEPISTOL_CLIP_02`,
                     `COMPONENT_TECPISTOL_CLIP_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1010,7 +1016,8 @@ return {
                     `COMPONENT_SMG_CLIP_02`,
                     `COMPONENT_SMG_MK2_CLIP_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1024,7 +1031,8 @@ return {
                     `COMPONENT_ASSAULTSHOTGUN_CLIP_02`,
                     `COMPONENT_HEAVYSHOTGUN_CLIP_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1050,7 +1058,8 @@ return {
                     `COMPONENT_TACTICALRIFLE_CLIP_02`,
                     `COMPONENT_BATTLERIFLE_CLIP_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1066,7 +1075,8 @@ return {
                     `COMPONENT_COMBATMG_CLIP_02`,
                     `COMPONENT_COMBATMG_MK2_CLIP_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1081,7 +1091,8 @@ return {
                     `COMPONENT_MARKSMANRIFLE_CLIP_02`,
                     `COMPONENT_MARKSMANRIFLE_MK2_CLIP_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1096,7 +1107,8 @@ return {
                     `COMPONENT_MACHINEPISTOL_CLIP_03`,
                     `COMPONENT_SMG_CLIP_03`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1109,7 +1121,8 @@ return {
                 component = {
                     `COMPONENT_HEAVYSHOTGUN_CLIP_03`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1125,7 +1138,8 @@ return {
                     `COMPONENT_CARBINERIFLE_CLIP_03`,
                     `COMPONENT_SPECIALCARBINE_CLIP_03`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1139,7 +1153,8 @@ return {
                     `COMPONENT_AT_PI_COMP_02`,
                     `COMPONENT_AT_PI_COMP_03`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1155,7 +1170,8 @@ return {
                     `COMPONENT_AT_SCOPE_MACRO_02_MK2`,
                     `COMPONENT_AT_SCOPE_MACRO_02_SMG_MK2`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1170,7 +1186,8 @@ return {
                     `COMPONENT_AT_SCOPE_SMALL_MK2`,
                     `COMPONENT_AT_SCOPE_SMALL_SMG_MK2`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1183,7 +1200,8 @@ return {
                     `COMPONENT_AT_SCOPE_MEDIUM`,
                     `COMPONENT_AT_SCOPE_MEDIUM_MK2`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1195,7 +1213,8 @@ return {
                 component = {
                     `COMPONENT_AT_SCOPE_LARGE_MK2`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1207,7 +1226,8 @@ return {
                 component = {
                     `COMPONENT_AT_SCOPE_MAX`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1219,7 +1239,8 @@ return {
                 component = {
                     `COMPONENT_AT_SCOPE_NV`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1231,7 +1252,8 @@ return {
                 component = {
                     `COMPONENT_AT_SCOPE_THERMAL`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1246,7 +1268,8 @@ return {
                     `COMPONENT_AT_SIGHTS`,
                     `COMPONENT_AT_SIGHTS_SMG`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1258,7 +1281,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_01`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1270,7 +1294,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_02`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1282,7 +1307,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_03`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1294,7 +1320,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_04`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1306,7 +1333,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_05`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1318,7 +1346,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_06`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1330,7 +1359,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_07`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1342,7 +1372,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_08`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1354,7 +1385,8 @@ return {
                 component = {
                     `COMPONENT_AT_MUZZLE_09`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1375,7 +1407,8 @@ return {
                     `COMPONENT_PUMPSHOTGUN_VARMOD_LOWRIDER`,
                     `COMPONENT_SMG_VARMOD_LUXE`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1389,7 +1422,8 @@ return {
                     `COMPONENT_SNIPERRIFLE_VARMOD_LUXE`,
                     `COMPONENT_SNSPISTOL_VARMOD_LOWRIDER`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1405,7 +1439,8 @@ return {
                     `COMPONENT_SAWNOFFSHOTGUN_VARMOD_LUXE`,
                     `COMPONENT_SPECIALCARBINE_VARMOD_LOWRIDER`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1417,7 +1452,8 @@ return {
                 component = {
                     `COMPONENT_PISTOL50_VARMOD_LUXE`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1429,7 +1465,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_BALLAS`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1441,7 +1478,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_DIAMOND`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1453,7 +1491,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_DOLLAR`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1465,7 +1504,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_HATE`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1477,7 +1517,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_KING`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1489,7 +1530,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_LOVE`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1501,7 +1543,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_PIMP`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1513,7 +1556,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_PLAYER`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1525,7 +1569,8 @@ return {
                 component = {
                     `COMPONENT_KNUCKLE_VARMOD_VAGOS`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1537,7 +1582,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1549,7 +1595,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_01`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1561,7 +1608,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_02`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1573,7 +1621,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_03`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1585,7 +1634,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_04`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1597,7 +1647,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_05`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1609,7 +1660,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_06`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1621,7 +1673,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_07`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1633,7 +1686,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_08`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1645,7 +1699,8 @@ return {
                 component = {
                     `COMPONENT_BAT_VARMOD_XM3_09`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1658,7 +1713,8 @@ return {
                     `COMPONENT_REVOLVER_VARMOD_BOSS`,
                     `COMPONENT_SWITCHBLADE_VARMOD_VAR1`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1671,7 +1727,8 @@ return {
                     `COMPONENT_REVOLVER_VARMOD_GOON`,
                     `COMPONENT_SWITCHBLADE_VARMOD_VAR2`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1683,7 +1740,8 @@ return {
                 component = {
                     `COMPONENT_RAYPISTOL_VARMOD_XMAS18`
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1696,7 +1754,8 @@ return {
                     `COMPONENT_APPISTOL_VARMOD_SECURITY`,
                     `COMPONENT_MICROSMG_VARMOD_SECURITY`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1719,7 +1778,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1742,7 +1802,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_02`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_02`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1765,7 +1826,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_03`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_03`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1788,7 +1850,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_04`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_04`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1811,7 +1874,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_05`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_05`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1834,7 +1898,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_06`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_06`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1857,7 +1922,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_07`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_07`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1880,7 +1946,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_08`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_08`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1903,7 +1970,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_09`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_09`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1926,7 +1994,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_10`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_10`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
 
@@ -1949,7 +2018,8 @@ return {
                     `COMPONENT_SNSPISTOL_MK2_CAMO_IND_01`,
                     `COMPONENT_SPECIALCARBINE_MK2_CAMO_IND_01`,
                 },
-                usetime = 2500
+                usetime = 2500,
+                disarm = false
             }
         },
     },

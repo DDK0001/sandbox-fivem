@@ -5880,19 +5880,19 @@ AnimData.PropEmotes = {
 	-- 	},
 	-- },
 
-	-- ["beanbag"] = {
-	-- 	AnDictionary = "timetable@reunited@ig_10",
-	-- 	AnAnim = "base_amanda",
-	-- 	AdditionalOptions = {
-	-- 		AvailableToChar = false,
-	-- 		Prop = "v_corp_facebeanbagc",
-	-- 		PropBone = 0,
-	-- 		PropPlacement = { -0.13, -0.59, -0.29, 36.0, -3.0, 166.0 },
-	-- 		EmoteMoving = false,
-	-- 		EmoteLoop = true,
-	-- 		BlockVehicle = true,
-	-- 	},
-	-- },
+	["beanbag"] = {
+		AnDictionary = "timetable@reunited@ig_10",
+		AnAnim = "base_amanda",
+		AdditionalOptions = {
+			AvailableToChar = false,
+			Prop = "v_corp_facebeanbagc",
+			PropBone = 0,
+			PropPlacement = { -0.13, -0.59, -0.29, 36.0, -3.0, 166.0 },
+			EmoteMoving = false,
+			EmoteLoop = true,
+			BlockVehicle = true,
+		},
+	},
 
 	["mop"] = {
 		AnDictionary = "missfbi4prepp1",

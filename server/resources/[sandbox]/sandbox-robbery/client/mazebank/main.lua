@@ -78,7 +78,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 17.38,
 		options = {
 			{
-				icon = "phone",
+				icon = "fas fa-lock",
 				label = "Secure Bank",
 				event = "Robbery:Client:MazeBank:StartSecuring",
 				groups = { "police" },
@@ -99,7 +99,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			options = v.isThermite
 				and {
 					{
-						icon = "fire",
+						icon = "fas fa-fire",
 						label = "Use Thermite",
 						item = "thermite",
 						onSelect = function()
@@ -117,7 +117,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 				}
 				or {
 					{
-						icon = "terminal",
+						icon = "fas fa-terminal",
 						label = "Hack Power Interface",
 						item = "adv_electronics_kit",
 						onSelect = function()
@@ -147,7 +147,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "bore-hole",
+					icon = "fas fa-drill",
 					label = "Use Drill",
 					item = "drill",
 					onSelect = function()
@@ -177,7 +177,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "terminal",
+					icon = "fas fa-terminal",
 					label = "Hack Workstation",
 					item = "adv_electronics_kit",
 					onSelect = function()

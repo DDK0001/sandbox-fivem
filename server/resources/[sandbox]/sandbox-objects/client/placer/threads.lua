@@ -107,17 +107,19 @@ function InstructionScaleform(scaleform, showFurnitureButtons, showGizmoButtons)
 			PopScaleformMovieFunctionVoid()
 		end
 
-		PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
-		PushScaleformMovieFunctionParameterInt(2)
-		InstructionButton(GetControlInstructionalButton(0, GetHashKey("+cancel_action") | 0x80000000, 1))
-		InstructionButtonMessage(showFurnitureButtons and "Cancel" or "Cancel Placement")
-		PopScaleformMovieFunctionVoid()
-
-		PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
-		PushScaleformMovieFunctionParameterInt(1)
-		InstructionButton(GetControlInstructionalButton(0, GetHashKey("+primary_action") | 0x80000000, 1))
-		InstructionButtonMessage(showFurnitureButtons and "Place" or "Place Object")
-		PopScaleformMovieFunctionVoid()
+		if showFurnitureButtons ~= false then
+			PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
+			PushScaleformMovieFunctionParameterInt(2)
+			InstructionButton(GetControlInstructionalButton(0, GetHashKey("+cancel_action") | 0x80000000, 1))
+			InstructionButtonMessage(showFurnitureButtons and "Cancel" or "Cancel Placement")
+			PopScaleformMovieFunctionVoid()
+	
+			PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
+			PushScaleformMovieFunctionParameterInt(1)
+			InstructionButton(GetControlInstructionalButton(0, GetHashKey("+primary_action") | 0x80000000, 1))
+			InstructionButtonMessage(showFurnitureButtons and "Place" or "Place Object")
+			PopScaleformMovieFunctionVoid()
+		end
 
 		PushScaleformMovieFunction(scaleform, "DRAW_INSTRUCTIONAL_BUTTONS")
 		PopScaleformMovieFunctionVoid()

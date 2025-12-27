@@ -2,6 +2,7 @@ _effectCds = {
 	meth = {},
 	coke = {},
 	adrenaline = {},
+	moonshine = {},
 }
 
 function RegisterItemUse()
@@ -156,10 +157,17 @@ function RegisterItemUse()
 	exports.ox_inventory:RegisterUse("moonshine", "DrugShit", function(source, slot, itemData)
 		local char = exports['sandbox-characters']:FetchCharacterSource(source)
 		if char ~= nil then
-			if _effectCds.coke[char:GetData("SID")] == nil or os.time() > _effectCds.coke[char:GetData("SID")] then
-				_effectCds.coke[char:GetData("SID")] = os.time() + (60 * 3)
+			if _effectCds.moonshine[char:GetData("SID")] == nil or os.time() > _effectCds.moonshine[char:GetData("SID")] then
+				_effectCds.moonshine[char:GetData("SID")] = os.time() + (60 * 3)
 				if exports.ox_inventory:RemoveSlot(slot.Owner, slot.Name, 1, slot.Slot, slot.invType) then
-					exports["sandbox-base"]:ClientCallback(source, "Drugs:Moonshine:Use", slot.Quality, function(s)
+					-- Get recipe from metadata, default to "classic"
+					local recipeId = (slot.MetaData and slot.MetaData.Recipe) or "classic"
+					local quality = slot.Quality or 50
+					
+					exports["sandbox-base"]:ClientCallback(source, "Drugs:Moonshine:Use", {
+						quality = quality,
+						recipeId = recipeId,
+					}, function(s)
 						if s then
 							exports['sandbox-drugs']:AddictionAdd(source, "Moonshine", 0.25)
 							local drugStates = char:GetData("DrugStates") or {}
@@ -168,7 +176,7 @@ function RegisterItemUse()
 								expires = os.time() + (60 * 30),
 							}
 							char:SetData("DrugStates", drugStates)
-							TriggerClientEvent("Drugs:Effects:Heal", source, slot.Quality)
+							TriggerClientEvent("Drugs:Effects:Moonshine", source, quality, recipeId)
 						end
 					end)
 				end

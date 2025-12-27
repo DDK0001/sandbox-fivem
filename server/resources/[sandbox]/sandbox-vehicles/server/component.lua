@@ -503,6 +503,18 @@ exports("OwnedGetVIN", function(VIN, cb)
             local success, properties = pcall(json.decode, vehicle.Properties)
             if success and properties then
                 vehicle.Properties = properties
+                
+                if properties.GovAssigned then
+                    if type(properties.GovAssigned) == 'string' then
+                        local govSuccess, govAssigned = pcall(json.decode, properties.GovAssigned)
+                        if govSuccess and govAssigned then
+                            vehicle.GovAssigned = govAssigned
+                        end
+                    elseif type(properties.GovAssigned) == 'table' then
+                        vehicle.GovAssigned = properties.GovAssigned
+                    end
+                end
+
             end
         end
 
@@ -638,6 +650,18 @@ exports("OwnedGetAll",
                         local success, properties = pcall(json.decode, v.Properties)
                         if success and properties then
                             v.Properties = properties
+                            
+                            if properties.GovAssigned then
+                                if type(properties.GovAssigned) == 'string' then
+                                    local govSuccess, govAssigned = pcall(json.decode, properties.GovAssigned)
+                                    if govSuccess and govAssigned then
+                                        v.GovAssigned = govAssigned
+                                    end
+                                elseif type(properties.GovAssigned) == 'table' then
+                                    v.GovAssigned = properties.GovAssigned
+                                end
+                            end
+
                         end
                     end
 
@@ -679,7 +703,7 @@ end)
 exports("OwnedSpawn", function(source, VIN, coords, heading, cb, extraData)
     exports['sandbox-vehicles']:OwnedGetVIN(VIN, function(vehicle)
         if vehicle and not exports['sandbox-vehicles']:OwnedGetActive(VIN) then
-            local spawnedVehicle = CreateVehicle(vehicle.ModelType, vehicle.Vehicle, coords,
+            local spawnedVehicle = CreateVehicleFunc(vehicle.ModelType, vehicle.Vehicle, coords,
                 (heading and heading + 0.0 or 0.0))
             if spawnedVehicle then
                 local vehState = Entity(spawnedVehicle).state
@@ -732,10 +756,15 @@ exports("OwnedSpawn", function(source, VIN, coords, heading, cb, extraData)
                 end
 
                 if vehicle.RegisteredPlate then
-                    if vehicle.FakePlate then
-                        vehState.Plate = vehicle.FakePlate
-                        vehState.FakePlate = vehicle.FakePlate
-                        SetVehicleNumberPlateText(spawnedVehicle, vehicle.FakePlate)
+                    if vehicle.FakePlate and vehicle.FakePlate ~= 0 then
+                        local fakePlateStr = vehicle.RegisteredPlate
+                        if vehicle.Properties and vehicle.Properties.FakePlate then
+                            fakePlateStr = vehicle.Properties.FakePlate
+                        end
+
+                        vehState.Plate = fakePlateStr
+                        vehState.FakePlate = fakePlateStr
+                        SetVehicleNumberPlateText(spawnedVehicle, fakePlateStr)
                     else
                         vehState.Plate = vehicle.RegisteredPlate
                         SetVehicleNumberPlateText(spawnedVehicle, vehicle.RegisteredPlate)
@@ -1062,7 +1091,7 @@ end)
 exports("SpawnTemp",
     function(source, model, modelType, coords, heading, cb, vehicleInfoData, properties, preDamage, suppliedPlate,
              suppliedVIN, spawnAsShit)
-        local spawnedVehicle = CreateVehicle(modelType, model, coords, heading, spawnAsShit)
+        local spawnedVehicle = CreateVehicleFunc(modelType, model, coords, heading, spawnAsShit)
         local vehState = Entity(spawnedVehicle).state
         local plate = suppliedPlate or exports['sandbox-vehicles']:PlateGenerate(true)
         vehState.VIN = suppliedVIN or exports['sandbox-vehicles']:VINGenerateLocal()

@@ -1,6 +1,6 @@
 local currentlyShowing = nil
 
-AddEventHandler("Businesses:Client:PayContactlessPayment", function(_, data)
+AddEventHandler("Businesses:Client:PayContactlessPayment", function(data)
     if data and data.id then
         exports["sandbox-base"]:ServerCallback("Contactless:Pay", {
             terminalId = data.id,
@@ -12,7 +12,7 @@ AddEventHandler("Businesses:Client:PayContactlessPayment", function(_, data)
     end
 end)
 
-AddEventHandler("Businesses:Client:CreateContactlessPayment", function(_, data)
+AddEventHandler("Businesses:Client:CreateContactlessPayment", function(data)
     if data and data.job and data.id then
         local input = GetContactlessInput(data)
 
@@ -32,13 +32,13 @@ AddEventHandler("Businesses:Client:CreateContactlessPayment", function(_, data)
                     end
                 end)
             else
-                exports["sandbox-hud"]:Notification("error", "Maximum Contactless Amount is $10,000")
+                exports["sandbox-hud"]:Notification("error", "Maximum Contactless Amount is $25,000")
             end
         end
     end
 end)
 
-AddEventHandler("Businesses:Client:ClearContactlessPayment", function(_, data)
+AddEventHandler("Businesses:Client:ClearContactlessPayment", function(data)
     if data and data.job and data.id then
         exports["sandbox-base"]:ServerCallback("Contactless:Clear", {
             job = data.job,

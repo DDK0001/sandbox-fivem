@@ -45,10 +45,43 @@ local function fetchSlotRestrictions()
     return formattedRestrictions
 end
 
+---@param itemName string
+---@param slot number
+---@return boolean
+local function canItemBePlacedInSlot(itemName, slot)
+    local restrictions = fetchSlotRestrictions()
+    local slotConfig = restrictions[tostring(slot)]
+    
+    if not slotConfig or not slotConfig.restrictions then
+        return true
+    end
+    
+    if slotConfig.exclude_items and slotConfig.exclude_items[itemName] then
+        return false
+    end
+    
+    local restrictionsConfig = slotConfig.restrictions
+    
+    if restrictionsConfig.type == 'weapon_prefix' then
+        local startsWithPrefix = itemName:sub(1, #restrictionsConfig.prefix) == (restrictionsConfig.prefix or '')
+        return restrictionsConfig.exclude and not startsWithPrefix or startsWithPrefix
+    elseif restrictionsConfig.type == 'allowed_items' then
+        for _, allowedItem in ipairs(restrictionsConfig.items) do
+            if itemName == allowedItem then
+                return true
+            end
+        end
+        return false
+    end
+    
+    return true
+end
+
 lib.callback.register('ox_inventory:fetchSlotRestrictions', function(source)
     return fetchSlotRestrictions()
 end)
 
 return {
     fetch = fetchSlotRestrictions,
+    canItemBePlacedInSlot = canItemBePlacedInSlot,
 }

@@ -52,7 +52,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 		maxZ = 39.11,
 		options = {
 			{
-				icon = "calculator",
+				icon = "fas fa-calculator",
 				label = "Secure Store",
 				event = "Robbery:Client:Vangelico:SecureStore",
 				groups = { "police" },
@@ -79,7 +79,7 @@ AddEventHandler("Robbery:Client:Setup", function()
 			maxZ = v.options.maxZ,
 			options = {
 				{
-					icon = "hammer",
+					icon = "fas fa-hammer",
 					label = "Smash Case",
 					event = "Robbery:Client:Vangelico:BreakCase",
 					canInteract = function()
@@ -153,7 +153,7 @@ AddEventHandler("Polyzone:Enter", function(id, point, insideZones, data)
 	if id == "vangelico" then
 		exports.ox_target:addModel(GetHashKey("hei_prop_hei_keypad_03"), {
 			-- {
-			-- 	icon = "bell-on",
+			-- 	icon = "fas fa-bell",
 			-- 	label = "Disable Alarm",
 			-- 	event = "Robbery:Client:Vangelico:DisableAlarm",
 			-- 	groups = { "police" },
@@ -166,7 +166,7 @@ AddEventHandler("Polyzone:Enter", function(id, point, insideZones, data)
 			-- 	end,
 			-- },
 			-- {
-			-- 	icon = "terminal",
+			-- 	icon = "fas fa-terminal",
 			-- 	label = "Hack Keypad",
 			-- 	event = "Robbery:Client:Vangelico:HackKeypad",
 			-- 	item = "sequencer",

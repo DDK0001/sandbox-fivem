@@ -89,7 +89,7 @@ function Startup()
 			string.format("%s Stash", v.name),
 			50,
 			100000,
-			k
+			true
 		)
 	end
 

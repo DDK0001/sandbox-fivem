@@ -326,6 +326,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `States` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `Callsign` varchar(255) DEFAULT NULL,
   `MDTHistory` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `Flags` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `Qualifications` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `LastClockOn` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `Salary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
@@ -350,6 +351,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `Inventory` longtext DEFAULT NULL,
   `CasinoChips` LONGTEXT DEFAULT NULL,
   `LSUNDGInviter` JSON DEFAULT NULL,
+  `LSUNDGBan` JSON DEFAULT NULL,
   PRIMARY KEY (`SID`) USING BTREE,
   CONSTRAINT `Origin` CHECK (json_valid(`Origin`)),
   CONSTRAINT `Apps` CHECK (json_valid(`Apps`)),
@@ -364,6 +366,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   CONSTRAINT `Animations` CHECK (json_valid(`Animations`)),
   CONSTRAINT `States` CHECK (json_valid(`States`)),
   CONSTRAINT `MDTHistory` CHECK (json_valid(`MDTHistory`)),
+  CONSTRAINT `Flags` CHECK (json_valid(`Flags`)),
   CONSTRAINT `Qualifications` CHECK (json_valid(`Qualifications`)),
   CONSTRAINT `LastClockOn` CHECK (json_valid(`LastClockOn`)),
   CONSTRAINT `Salary` CHECK (json_valid(`Salary`)),
@@ -378,7 +381,6 @@ CREATE TABLE IF NOT EXISTS `characters` (
   CONSTRAINT `CasinoChips` CHECK (json_valid(`CasinoChips`)),
   CONSTRAINT `LSUNDGInviter` CHECK (json_valid(`LSUNDGInviter`))
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
 
 DROP TABLE IF EXISTS `character_app_profiles`;
 CREATE TABLE IF NOT EXISTS `character_app_profiles` (
@@ -552,57 +554,59 @@ CREATE TABLE IF NOT EXISTS `crafting_cooldowns` (
 
 DROP TABLE IF EXISTS `dealer_data`;
 CREATE TABLE IF NOT EXISTS `dealer_data` (
-    `dealership` VARCHAR(255) NOT NULL,
-    `sales` INT DEFAULT 0,
-    `revenue` DECIMAL(15,2) DEFAULT 0,
-    `inventory` LONGTEXT DEFAULT NULL,
-    `settings` LONGTEXT DEFAULT NULL,
-    PRIMARY KEY (`dealership`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `dealership` varchar(255) NOT NULL,
+  `sales` int(11) DEFAULT 0,
+  `revenue` decimal(15,2) DEFAULT 0.00,
+  `inventory` longtext DEFAULT NULL,
+  `settings` longtext DEFAULT NULL,
+  `profitPercentage` decimal(5,2) DEFAULT 0.00,
+  `commission` decimal(5,2) DEFAULT 0.00,
+  PRIMARY KEY (`dealership`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_records`;
 CREATE TABLE IF NOT EXISTS `dealer_records` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `dealership` VARCHAR(255) NOT NULL,
-    `time` INT(11) NOT NULL,
-    `seller` LONGTEXT DEFAULT NULL,
-    `buyer` LONGTEXT DEFAULT NULL,
-    `vehicle` LONGTEXT DEFAULT NULL,
-    `price` DECIMAL(15,2) DEFAULT 0,
-    `commission` DECIMAL(15,2) DEFAULT 0,
-    PRIMARY KEY (`id`),
-    KEY `dealership` (`dealership`),
-    KEY `time` (`time`),
-    CONSTRAINT `seller` CHECK (json_valid(`seller`)),
-    CONSTRAINT `buyer` CHECK (json_valid(`buyer`)),
-    CONSTRAINT `vehicle` CHECK (json_valid(`vehicle`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dealership` varchar(255) NOT NULL,
+  `time` int(11) NOT NULL,
+  `seller` longtext DEFAULT NULL,
+  `buyer` longtext DEFAULT NULL,
+  `vehicle` longtext DEFAULT NULL,
+  `price` decimal(15,2) DEFAULT 0.00,
+  `commission` decimal(15,2) DEFAULT 0.00,
+  PRIMARY KEY (`id`),
+  KEY `dealership` (`dealership`),
+  KEY `time` (`time`),
+  CONSTRAINT `seller` CHECK (json_valid(`seller`)),
+  CONSTRAINT `buyer` CHECK (json_valid(`buyer`)),
+  CONSTRAINT `vehicle` CHECK (json_valid(`vehicle`))
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_records_buybacks`;
 CREATE TABLE IF NOT EXISTS `dealer_records_buybacks` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `dealership` VARCHAR(255) NOT NULL,
-    `time` INT(11) NOT NULL,
-    `seller` LONGTEXT DEFAULT NULL,
-    `buyer` LONGTEXT DEFAULT NULL,
-    `vehicle` LONGTEXT DEFAULT NULL,
-    `price` DECIMAL(15,2) DEFAULT 0,
-    `commission` DECIMAL(15,2) DEFAULT 0,
-    PRIMARY KEY (`id`),
-    KEY `dealership` (`dealership`),
-    KEY `time` (`time`),
-    CONSTRAINT `seller` CHECK (json_valid(`seller`)),
-    CONSTRAINT `buyer` CHECK (json_valid(`buyer`)),
-    CONSTRAINT `vehicle` CHECK (json_valid(`vehicle`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dealership` varchar(255) NOT NULL,
+  `time` int(11) NOT NULL,
+  `seller` longtext DEFAULT NULL,
+  `buyer` longtext DEFAULT NULL,
+  `vehicle` longtext DEFAULT NULL,
+  `price` decimal(15,2) DEFAULT 0.00,
+  `commission` decimal(15,2) DEFAULT 0.00,
+  PRIMARY KEY (`id`),
+  KEY `dealership` (`dealership`),
+  KEY `time` (`time`),
+  CONSTRAINT `seller` CHECK (json_valid(`seller`)),
+  CONSTRAINT `buyer` CHECK (json_valid(`buyer`)),
+  CONSTRAINT `vehicle` CHECK (json_valid(`vehicle`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_showrooms`;
 CREATE TABLE IF NOT EXISTS `dealer_showrooms` (
-    `dealership` VARCHAR(255) NOT NULL,
-    `showroom` LONGTEXT DEFAULT NULL,
-    PRIMARY KEY (`dealership`),
-    CONSTRAINT `showroom` CHECK (json_valid(`showroom`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `dealership` varchar(255) NOT NULL,
+  `showroom` longtext DEFAULT NULL,
+  PRIMARY KEY (`dealership`),
+  CONSTRAINT `showroom` CHECK (json_valid(`showroom`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `dealer_stock`;
 CREATE TABLE IF NOT EXISTS `dealer_stock` (
@@ -613,9 +617,9 @@ CREATE TABLE IF NOT EXISTS `dealer_stock` (
   `quantity` int(11) NOT NULL DEFAULT 0,
   `lastStocked` int(11) DEFAULT NULL,
   `lastPurchase` int(11) DEFAULT NULL,
-  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY `dealership_vehicle` (`dealership`, `vehicle`),
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  UNIQUE KEY `dealership_vehicle` (`dealership`,`vehicle`),
   KEY `dealership` (`dealership`),
   KEY `vehicle` (`vehicle`),
   CONSTRAINT `data` CHECK (json_valid(`data`))
@@ -1072,7 +1076,7 @@ CREATE TABLE IF NOT EXISTS `moonshine_stills` (
 
 CREATE TABLE IF NOT EXISTS `ox_doorlock` (
     `id` int (11) unsigned NOT NULL AUTO_INCREMENT,
-    `name` varchar(50) NOT NULL,
+    `name` varchar(255) NOT NULL,
     `data` longtext NOT NULL,
     PRIMARY KEY (`id`)
 );
@@ -2162,7 +2166,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `Value` int(11) DEFAULT 0,
   `Class` varchar(10) DEFAULT 'Unknown',
   `Vehicle` int(11) DEFAULT 0,
-  `FakePlate` boolean DEFAULT FALSE,
+  `FakePlate` tinyint(1) NOT NULL DEFAULT 0,
   `Damage` json DEFAULT NULL,
   `DamagedParts` json DEFAULT NULL,
   `Polish` json DEFAULT NULL,

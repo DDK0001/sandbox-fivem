@@ -84,6 +84,14 @@ local function shouldHide(option, distance, endCoords, entityHit, entityType, en
         return true
     end
 
+    if option.item and not utils.hasPlayerGotItems(option.item, option.anyItem) then
+        return true
+    end
+
+    if option.anyItems and not utils.hasPlayerGotItems(option.anyItems, true) then
+        return true
+    end
+
     local bone = entityModel and option.bones or nil
 
     if bone then

@@ -292,6 +292,10 @@ RegisterNetEvent("Inventory:Client:SpeedyBoi", function(modifier, duration, cd, 
     end
 end)
 
+RegisterNetEvent("Inventory:Client:ProgressModifier", function(modifier, duration)
+    exports['sandbox-hud']:ProgressModifier(modifier, duration)
+end)
+
 RegisterNetEvent("Inventory:Client:HealthModifier", function(healthMod)
     local currentHealth = GetEntityHealth(LocalPlayer.state.ped)
     local maxHp = GetEntityMaxHealth(LocalPlayer.state.ped) - 100

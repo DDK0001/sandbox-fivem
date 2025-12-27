@@ -15,7 +15,7 @@ function RegisterBankingCallbacks()
 		end
 
 		if amt > 0 then
-			char:SetData("Salary", false)
+			char:SetData("Salary", {})
 			exports['sandbox-finance']:BalanceDeposit(
 				exports['sandbox-finance']:AccountsGetPersonal(char:GetData("SID")).Account, amt, {
 					type = 'paycheck',

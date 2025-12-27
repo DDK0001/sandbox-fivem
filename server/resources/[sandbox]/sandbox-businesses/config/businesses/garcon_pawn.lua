@@ -15,10 +15,6 @@ table.insert(Config.Businesses, {
 			},
 			data = {
 				business = "garcon_pawn",
-				inventory = {
-					invType = 224,
-					owner = "garcon_pawn-pickup-1",
-				},
 			},
 		},
 		{
@@ -34,10 +30,6 @@ table.insert(Config.Businesses, {
 			},
 			data = {
 				business = "garcon_pawn",
-				inventory = {
-					invType = 225,
-					owner = "garcon_pawn-pickup-2",
-				},
 			},
 		},
 		{
@@ -53,10 +45,6 @@ table.insert(Config.Businesses, {
 			},
 			data = {
 				business = "garcon_pawn",
-				inventory = {
-					invType = 226,
-					owner = "garcon_pawn-pickup-3",
-				},
 			},
 		},
 
@@ -73,10 +61,6 @@ table.insert(Config.Businesses, {
 			},
 			data = {
 				business = "garcon_pawn",
-				inventory = {
-					invType = 227,
-					owner = "garcon_pawn-pickup-4",
-				},
 			},
 		},
 	},

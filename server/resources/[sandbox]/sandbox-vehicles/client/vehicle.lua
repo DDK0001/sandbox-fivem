@@ -1044,6 +1044,72 @@ AddEventHandler("Vehicles:Client:StartUp", function()
 		end
 	end)
 
+	exports["sandbox-base"]:RegisterClientCallback("Vehicles:PDLockpick", function(data, cb)
+		if _characterLoaded then
+			if not (LocalPlayer.state.onDuty == "police" or LocalPlayer.state.onDuty == "prison") then
+				exports["sandbox-hud"]:Notification("error", "You cannot do this you criminal!", 3000)
+				return cb(false, false)
+			end
+			if VEHICLE_INSIDE then
+				if VEHICLE_SEAT == -1 then
+					local vehClass = _vehicleClasses[exports['sandbox-vehicles']:ClassGet(VEHICLE_INSIDE)]
+
+					local boostOverride = Entity(VEHICLE_INSIDE).state.boostForceHack
+
+					if vehClass and vehClass.advLockpick and not boostOverride then
+						exports['sandbox-vehicles']:Lockpick(vehClass.advLockpick.interior, data, cb)
+					else
+						exports["sandbox-hud"]:Notification("error", "Cannot Lockpick This Vehicle")
+					end
+				else
+					cb(false, false)
+				end
+			else
+				local playerCoords = GetEntityCoords(PlayerPedId())
+				local maxDistance = 2.0
+				local includePlayerVehicle = true
+
+				local vehicle = lib.getClosestVehicle(playerCoords, maxDistance, includePlayerVehicle)
+				if
+					vehicle
+					and DoesEntityExist(vehicle)
+					and IsEntityAVehicle(vehicle)
+					and #(GetEntityCoords(vehicle) - GetEntityCoords(GLOBAL_PED)) <= 2.0
+				then
+					-- Request VIN generation if vehicle doesn't have one
+					local vehEnt = Entity(vehicle)
+					if not vehEnt.state.VIN then
+						TriggerServerEvent("Vehicles:Server:RequestGenerateVehicleInfo", VehToNet(vehicle))
+						local attempts = 0
+						while not vehEnt.state.VIN and attempts < 20 do
+							Wait(100)
+							attempts = attempts + 1
+						end
+						
+						if not vehEnt.state.VIN then
+							exports["sandbox-hud"]:Notification("error", "Failed to Initialize Vehicle", 3000)
+							return cb(false, false)
+						end
+					end
+
+					local vehClass = _vehicleClasses[exports['sandbox-vehicles']:ClassGet(vehicle)]
+					local boostOverride = Entity(vehicle).state.boostForceHack
+
+					if vehClass and vehClass.advLockpick and not boostOverride then
+						exports['sandbox-vehicles']:LockpickExterior(vehClass.advLockpick.exterior, data, vehicle,
+							cb)
+					else
+						exports["sandbox-hud"]:Notification("error", "Cannot Lockpick This Vehicle")
+					end
+				else
+					cb(false, false)
+				end
+			end
+		else
+			cb(false, false)
+		end
+	end)
+
 	exports["sandbox-base"]:RegisterClientCallback("Vehicles:Hack", function(data, cb)
 		if _characterLoaded then
 			if VEHICLE_INSIDE then

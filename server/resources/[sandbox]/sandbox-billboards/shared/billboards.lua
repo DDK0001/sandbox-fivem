@@ -250,4 +250,4 @@ _billboardConfig = {
 	},
 }
 
-_billboardRegex = [[((https?:\/\/(www\.)?(i\.)?imgur\.com\/[a-zA-Z\d]+)(\.png|\.jpg|\.jpeg|\.gif)?)]]
+_billboardRegex = [[((https?:\/\/(www\.)?(i\.)?(imgur\.com|ibb\.co|postimg\.cc|fivemanage\.com|fivemanage\.net|fivemanage\.org)\/[a-zA-Z\d\-_]+)(\.png|\.jpg|\.jpeg|\.gif)?)]]

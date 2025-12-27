@@ -5,6 +5,7 @@ local Items = require 'modules.items.server'
 AddEventHandler("onResourceStart", function(resource)
     if resource ~= GetCurrentResourceName() then return end
     RegisterRandomItems()
+    RegisterOXINVMiddleware()
 
     TriggerEvent('ox_inventory:ready')
 
@@ -196,6 +197,25 @@ AddEventHandler("onResourceStart", function(resource)
             { name = 'SID', help = 'The SID of the player to return items to' },
         },
     }, 1)
+
+    RegisterServerEvent('Jobs:Server:JobUpdate', function(source)
+        local playerInventory = Inventory(source)
+        if playerInventory then
+            local newPlayerData = server.setPlayerData({ source = source })
+            
+            if newPlayerData.groups then
+                playerInventory.player.groups = newPlayerData.groups
+            end
+            
+            if newPlayerData.workplaces then
+                playerInventory.player.workplaces = newPlayerData.workplaces
+            end
+            
+            if server.syncInventory then
+                server.syncInventory(playerInventory)
+            end
+        end
+    end)
 
     exports["sandbox-chat"]:RegisterAdminCommand("clearinv", function(source, args, rawCommand)
         if args[1] == 'me' then
@@ -515,6 +535,22 @@ local function Item(name, cb)
 end
 
 local function convertItemSlotOxToOld(item, inventoryId)
+    local createDate = nil
+    if item.metadata.degrade and item.metadata.durability then
+        if item.metadata.durability > 100 then
+            local currentTime = os.time()
+            local totalTime = item.metadata.degrade * 60
+            if item.metadata.durability > currentTime then
+                createDate = ((item.metadata.durability - currentTime) / totalTime) * 100
+            else
+                createDate = 0
+            end
+            createDate = math.max(0, math.min(100, createDate))
+        else
+            createDate = item.metadata.durability
+        end
+    end
+
     return item and {
         Slot = item.slot,
         Name = item.name,
@@ -522,7 +558,7 @@ local function convertItemSlotOxToOld(item, inventoryId)
         Owner = inventoryId,
         Quality = item.metadata?.Quality,
         MetaData = item.metadata,
-        CreateDate = item.metadata.degrade and item.metadata.durability - item.metadata.degrade
+        CreateDate = createDate
     } or nil
 end
 
@@ -678,7 +714,76 @@ function BuildMetaDataTable(cData, item, existing)
         MetaData.Amount = math.random(5000, 8000)
     elseif itemExist.name == "nitrous" and not MetaData.Nitrous then
         MetaData.Nitrous = 100
+    elseif itemExist.name == "evidence-casing" and not MetaData.CollectedTime then
+        MetaData.CollectedTime = os.time()
+        if MetaData.EvidenceWeapon and MetaData.EvidenceWeapon.serial then
+            local weaponItem = ItemList[MetaData.EvidenceWeapon.name]
+            local weaponLabel = (weaponItem and weaponItem.label) or MetaData.EvidenceWeapon.name or "Unknown Weapon"
+            
+            MetaData.description = string.format(
+                "Casing from %s\nSerial: %s\nAmmo: %s",
+                weaponLabel,
+                MetaData.EvidenceWeapon.serial,
+                MetaData.EvidenceAmmoType or "Unknown"
+            )
+        end
+    elseif itemExist.name == "evidence-projectile" and not MetaData.CollectedTime then
+        MetaData.CollectedTime = os.time()
+        if MetaData.EvidenceDegraded then
+            MetaData.description = "⚠️ Evidence too degraded for analysis"
+        else
+            local weaponLabel = "Unknown Weapon"
+            if MetaData.EvidenceWeapon then
+                local weaponItem = ItemList[MetaData.EvidenceWeapon.name]
+                weaponLabel = (weaponItem and weaponItem.label) or MetaData.EvidenceWeapon.name or "Unknown Weapon"
+            end
+
+            MetaData.description = string.format(
+                "Evidence ID: %s\nAmmo: %s",
+                MetaData.EvidenceId or "N/A",
+                MetaData.EvidenceAmmoType or "Unknown"
+            )
+        end
+    elseif itemExist.name == "evidence-dna" and not MetaData.CollectedTime then
+        MetaData.CollectedTime = os.time()
+        if MetaData.EvidenceDegraded then
+            MetaData.description = "⚠️ DNA sample too degraded for analysis"
+        elseif MetaData.EvidenceDNA then
+            MetaData.description = string.format(
+                "%s DNA Sample\nSID: %s",
+                MetaData.EvidenceBloodPool and "Blood Pool" or "Blood",
+                MetaData.EvidenceDNA
+            )
+        end
+    elseif itemExist.name == "evidence-paint" and not MetaData.CollectedTime then
+        MetaData.CollectedTime = os.time()
+        if MetaData.EvidenceColor then
+            local color = MetaData.EvidenceColor
+            MetaData.description = string.format(
+                "Paint Fragment\nRGB: (%d, %d, %d)",
+                color.r or 0,
+                color.g or 0,
+                color.b or 0
+            )
+        end
+    elseif itemExist.name == "fakeplates" then
+        local updatingMetaData = {
+            Plate = exports['sandbox-vehicles']:PlateGenerate(true),
+            VIN = exports['sandbox-vehicles']:VINGenerateLocal(),
+            OwnerName = exports['sandbox-base']:GeneratorNameFirst() .. " " .. exports['sandbox-base']:GeneratorNameLast(),
+            SID = exports['sandbox-base']:SequenceGet("Character"),
+            Vehicle = exports['sandbox-vehicles']:RandomName(),
+        }
+    
+        MetaData.metadata = updatingMetaData
+    
+        MetaData.description = string.format(
+            "Fake Plate\nOwner: %s  | Plate: %s",
+            updatingMetaData.OwnerName,
+            updatingMetaData.Plate
+        )
     end
+
 
     return MetaData
 end
@@ -1014,6 +1119,12 @@ end)
 exports('Rob', function(src, tSrc, id)
     exports.ox_inventory:forceOpenInventory(src, 'player', tSrc)
 end)
+
+function RegisterOXINVMiddleware()
+    exports['sandbox-base']:MiddlewareAdd('Characters:Logout', function(source)
+        Inventory.SaveInventories(false, true)
+    end, 1)
+end
 
 function RegisterRandomItems()
     exports.ox_inventory:RegisterUse("vanityitem", "VanityItems", function(source, item, itemData)
@@ -1457,7 +1568,6 @@ CreateThread(function()
                 end
             end)
         end
-
         if itemData.drugState then
             exports.ox_inventory:RegisterUse(name, "DrugStates", function(source, item)
                 local char = exports['sandbox-characters']:FetchCharacterSource(source)
@@ -1471,7 +1581,6 @@ CreateThread(function()
                 end
             end)
         end
-
         if itemData.energyModifier then
             exports.ox_inventory:RegisterUse(name, "EnergyModifier", function(source, item)
                 TriggerClientEvent(
@@ -1484,8 +1593,35 @@ CreateThread(function()
                 )
             end)
         end
+        if itemData.progressModifier then
+            exports.ox_inventory:RegisterUse(name, "ProgressModifier", function(source, item)
+                local modifier = itemData.progressModifier.modifier or 0
+                local duration = math.random(itemData.progressModifier.min or 1, itemData.progressModifier.max or 1) * 60 * 1000
+                TriggerClientEvent("Inventory:Client:ProgressModifier", source, modifier, duration)
+            end)
+        end
+        if itemData.healthModifier then
+            exports.ox_inventory:RegisterUse(name, "HealthModifier", function(source, item)
+                TriggerClientEvent("Inventory:Client:HealthModifier", source, itemData.healthModifier)
+            end)
+        end
+        if itemData.armourModifier then
+            exports.ox_inventory:RegisterUse(name, "ArmourModifier", function(source, item)
+                TriggerClientEvent("Inventory:Client:ArmourModifier", source, itemData.armourModifier)
+            end)
+        end
+        if itemData.stressTicks then
+            exports.ox_inventory:RegisterUse(name, "StressTicks", function(source, item)
+                local char = exports['sandbox-characters']:FetchCharacterSource(source)
+                if char then
+                    char.state.stressTicks = itemData.stressTicks
+                    TriggerClientEvent("Status:Client:Ticks:Stress", source)
+                end
+            end)
+        end
     end
 end)
+
 
 RegisterNetEvent('Inventory:ClearGangChain', function()
     local src = source

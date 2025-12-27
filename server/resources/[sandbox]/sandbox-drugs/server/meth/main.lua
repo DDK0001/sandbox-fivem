@@ -168,8 +168,8 @@ AddEventHandler("Drugs:Server:Startup", function()
                 local md = slot.metadata or slot.MetaData or {}
                 if md.MethTable then
                     local tableData = exports['sandbox-drugs']:MethGetTable(md.MethTable)
-                    if exports.ox_inventory:RemoveItem(char:GetData("SID"), "meth_table", 1, md) then
-                        exports['sandbox-drugs']:MethCreatePlacedTable(md.MethTable, char:GetData("SID"),
+                    if exports.ox_inventory:RemoveItem(source, "meth_table", 1, md) then
+                        exports['sandbox-drugs']:MethCreatePlacedTable(md.MethTable, char:GetData("SID"), 
                             tableData.tier,
                             data.endCoords.coords, data.endCoords.rotation, tableData.created)
                         exports['sandbox-drugs']:ClearPlacementData(source)

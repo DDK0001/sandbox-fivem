@@ -81,51 +81,106 @@ AddEventHandler("Sync:Server:WeatherChange", function(weather)
 end)
 
 RegisterNetEvent("Evidence:Server:PickupEvidence", function(evidenceId)
-	local _src = source
-	local char = exports['sandbox-characters']:FetchCharacterSource(source)
-	if char and exports['sandbox-jobs']:HasJob(_src, "police") then
-		for k, v in ipairs(EVIDENCE_CACHE) do
-			if v.id == evidenceId then
-				if v.type == "paint_fragment" then
-					exports.ox_inventory:AddItem(char:GetData("SID"), "evidence-paint", 1, {
-						EvidenceType = v.type,
-						EvidenceId = v.id,
-						EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
-						EvidenceColor = v.data and v.data.color,
-					}, 1)
-				elseif v.type == "projectile" then
-					exports.ox_inventory:AddItem(char:GetData("SID"), "evidence-projectile", 1, {
-						EvidenceType = v.type,
-						EvidenceId = v.id,
-						EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
-						EvidenceWeapon = v.data and v.data.weapon,
-						EvidenceAmmoType = (v.data and v.data.weapon) and v.data.weapon.ammoTypeName,
-						EvidenceDegraded = v.data and v.data.tooDegraded,
-					}, 1)
-				elseif v.type == "casing" then
-					exports.ox_inventory:AddItem(char:GetData("SID"), "evidence-casing", 1, {
-						EvidenceType = v.type,
-						EvidenceId = v.id,
-						EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
-						EvidenceWeapon = v.data and v.data.weapon,
-						EvidenceAmmoType = (v.data and v.data.weapon) and v.data.weapon.ammoTypeName,
-					}, 1)
-				elseif v.type == "blood" then
-					exports.ox_inventory:AddItem(char:GetData("SID"), "evidence-dna", 1, {
-						EvidenceType = v.type,
-						EvidenceId = v.id,
-						EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
-						EvidenceDNA = v.data and v.data.DNA,
-						EvidenceBloodPool = v.data and v.data.IsBloodPool,
-						EvidenceDegraded = v.data and v.data.tooDegraded,
-					}, 1)
-				end
-
-				table.remove(EVIDENCE_CACHE, k)
-				TriggerClientEvent("Evidence:Client:ForceUpdateEvidence", -1)
-			end
-		end
-	end
+    local _src = source
+    local char = exports['sandbox-characters']:FetchCharacterSource(source)
+    if char and exports['sandbox-jobs']:HasJob(_src, "police") then
+        for k, v in ipairs(EVIDENCE_CACHE) do
+            if v.id == evidenceId then
+                local itemName, metadata
+                local collectedTime = os.time()
+                
+                if v.type == "paint_fragment" then
+                    itemName = "evidence-paint"
+                    local color = v.data and v.data.color
+                    metadata = {
+                        EvidenceType = v.type,
+                        EvidenceId = v.id,
+                        EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
+                        EvidenceColor = color,
+                        CollectedTime = collectedTime,
+                        description = color and string.format(
+                            "Paint Fragment\nRGB: (%d, %d, %d)",
+                            color.r or 0,
+                            color.g or 0,
+                            color.b or 0
+                        ) or "Paint Fragment",
+                    }
+                elseif v.type == "projectile" then
+                    itemName = "evidence-projectile"
+                    local degraded = v.data and v.data.tooDegraded
+                    metadata = {
+                        EvidenceType = v.type,
+                        EvidenceId = v.id,
+                        EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
+                        EvidenceWeapon = v.data and v.data.weapon,
+                        EvidenceAmmoType = (v.data and v.data.weapon) and v.data.weapon.ammoTypeName,
+                        EvidenceDegraded = degraded,
+                        CollectedTime = collectedTime,
+                        description = degraded and "⚠️ Evidence too degraded for analysis" or string.format(
+                            "Evidence ID: %s\nAmmo: %s",
+                            v.id or "N/A",
+                            (v.data and v.data.weapon) and v.data.weapon.ammoTypeName or "Unknown"
+                        ),
+                    }
+                elseif v.type == "casing" then
+                    itemName = "evidence-casing"
+                    local weapon = v.data and v.data.weapon
+                    local weaponLabel = "Unknown Weapon"
+                    if weapon and weapon.name then
+                        local ItemList = require 'modules.items.shared'
+                        local weaponItem = ItemList[weapon.name]
+                        weaponLabel = (weaponItem and weaponItem.label) or weapon.name or "Unknown Weapon"
+                    end
+                    metadata = {
+                        EvidenceType = v.type,
+                        EvidenceId = v.id,
+                        EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
+                        EvidenceWeapon = weapon,
+                        EvidenceAmmoType = weapon and weapon.ammoTypeName,
+                        CollectedTime = collectedTime,
+                        description = (weapon and weapon.serial) and string.format(
+                            "Casing from %s\nSerial: %s\nAmmo: %s",
+                            weaponLabel,
+                            weapon.serial,
+                            weapon.ammoTypeName or "Unknown"
+                        ) or "Casing Evidence",
+                    }
+                elseif v.type == "blood" then
+                    itemName = "evidence-dna"
+                    local degraded = v.data and v.data.tooDegraded
+                    local dna = v.data and v.data.DNA
+                    metadata = {
+                        EvidenceType = v.type,
+                        EvidenceId = v.id,
+                        EvidenceCoords = { x = v.coords.x, y = v.coords.y, z = v.coords.z },
+                        EvidenceDNA = dna,
+                        EvidenceBloodPool = v.data and v.data.IsBloodPool,
+                        EvidenceDegraded = degraded,
+                        CollectedTime = collectedTime,
+                        description = degraded and "⚠️ DNA sample too degraded for analysis" or (dna and string.format(
+                            "%s DNA Sample\nSID: %s",
+                            (v.data and v.data.IsBloodPool) and "Blood Pool" or "Blood",
+                            dna
+                        ) or "DNA Evidence"),
+                    }
+                end
+                
+                if itemName then
+                    exports.ox_inventory:AddItem(
+                        char:GetData("SID"), 
+                        itemName, 
+                        1, 
+                        metadata, 
+                        1
+                    )
+                    
+                    table.remove(EVIDENCE_CACHE, k)
+                    TriggerClientEvent("Evidence:Client:ForceUpdateEvidence", -1)
+                end
+                break
+            end
+        end
+    end
 end)
 
 local pendingSend = false

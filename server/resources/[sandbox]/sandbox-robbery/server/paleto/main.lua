@@ -304,7 +304,7 @@ AddEventHandler("Robbery:Server:Setup", function()
 												250.0
 											)
 											GlobalState["Fleeca:Disable:savings_paleto"] = true
-											exports['ox_doorlock']:SetLock("bank_savings_paleto_gate", false)
+											exports['ox_doorlock']:SetLock("sandbox_bank_savings_paleto_gate", false)
 											RestorePowerThread()
 										else
 											exports["sandbox-sounds"]:PlayLocation(
@@ -314,7 +314,7 @@ AddEventHandler("Robbery:Server:Setup", function()
 												"power_small_complete_off.ogg",
 												0.1
 											)
-											exports['ox_doorlock']:SetLock("bank_savings_paleto_gate", true)
+											exports['ox_doorlock']:SetLock("sandbox_bank_savings_paleto_gate", true)
 										end
 										exports['sandbox-status']:Add(source, "PLAYER_STRESS", 3)
 									else
@@ -763,7 +763,7 @@ AddEventHandler("Robbery:Server:Setup", function()
 							6000
 						)
 						return
-					elseif exports['ox_doorlock']:IsLocked("bank_savings_paleto_vault") then
+					elseif exports['ox_doorlock']:IsLocked("sandbox_bank_savings_paleto_vault") then
 						return
 					end
 					if not _pbInUse.drillPoints[data] then

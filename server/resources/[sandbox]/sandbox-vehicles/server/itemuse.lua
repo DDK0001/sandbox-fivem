@@ -35,6 +35,24 @@ function RegisterItemUses()
 		end)
 	end)
 
+	exports.ox_inventory:RegisterUse("lockpick_pd", "Vehicles", function(source, slot, itemData)
+		Citizen.SetTimeout(500, function()
+			exports["sandbox-base"]:ClientCallback(source, "Vehicles:PDLockpick", true, function(using, success)
+				if using then
+					local newValue = slot.CreateDate - (60 * 60 * 24)
+					if success then
+						newValue = slot.CreateDate - (60 * 60 * 12)
+					end
+					if (os.time() - itemData.durability >= newValue) then
+						exports.ox_inventory:RemoveId(slot.Owner, slot.invType, slot)
+					else
+						exports.ox_inventory:SetItemCreateDate(slot.id, newValue)
+					end
+				end
+			end)
+		end)
+	end)
+
 	exports.ox_inventory:RegisterUse("electronics_kit", "Vehicles", function(source, slot, itemData)
 		Citizen.SetTimeout(500, function()
 			exports["sandbox-base"]:ClientCallback(source, "Vehicles:Hack", true, function(using, success)
@@ -100,43 +118,40 @@ function RegisterItemUses()
 		end)
 	end)
 
-	exports.ox_inventory:RegisterUse("repairkit", "Vehicles", function(source, itemData)
+	exports.ox_inventory:RegisterUse("repairkit", "Vehicles", function(source, slot, itemData)
 		exports["sandbox-base"]:ClientCallback(source, "Vehicles:RepairKit", false, function(success)
 			if success then
-				exports.ox_inventory:RemoveSlot(itemData.Owner, itemData.Name, 1, itemData.Slot, itemData
-					.invType)
+				exports.ox_inventory:RemoveSlot(slot.Owner, slot.Name, 1, slot.Slot, slot.invType)
 			end
 		end)
 	end)
 
-	exports.ox_inventory:RegisterUse("repairkitadv", "Vehicles", function(source, itemData)
+	exports.ox_inventory:RegisterUse("repairkitadv", "Vehicles", function(source, slot, itemData)
 		exports["sandbox-base"]:ClientCallback(source, "Vehicles:RepairKit", true, function(success)
 			if success then
-				exports.ox_inventory:RemoveSlot(itemData.Owner, itemData.Name, 1, itemData.Slot, itemData
-					.invType)
+			exports.ox_inventory:RemoveSlot(slot.Owner, slot.Name, 1, slot.Slot, slot.invType)
 			end
 		end)
 	end)
 
-	exports.ox_inventory:RegisterUse("fakeplates", "Vehicles", function(source, itemData)
-		local currentMeta = itemData.MetaData or {}
+	exports.ox_inventory:RegisterUse("fakeplates", "Vehicles", function(source, slot, itemData)
+		local currentMeta = slot.MetaData or {}
 		if not currentMeta.Plate then -- Data needs generating
-			local updatingMetaData = {}
-
-			updatingMetaData.Plate = Vehicles.Identification.Plate:Generate(true)
-			updatingMetaData.VIN = Vehicles.Identification.VIN:GenerateLocal() -- Might not be completely unique but odds are low and idc
-			updatingMetaData.OwnerName = exports['sandbox-base']:GeneratorNameFirst() ..
-				" " .. exports['sandbox-base']:GeneratorNameLast()
-			updatingMetaData.SID = exports['sandbox-base']:SequenceGet("Character")
-			updatingMetaData.Vehicle = exports['sandbox-vehicles']:RandomName()
-
-			currentMeta = exports.ox_inventory:UpdateMetaData(itemData.id, updatingMetaData)
+			local updatingMetaData = {
+				Plate = exports['sandbox-vehicles']:PlateGenerate(true),
+				VIN = exports['sandbox-vehicles']:VINGenerateLocal(), -- Might not be completely unique but odds are low and idc
+				OwnerName = exports['sandbox-base']:GeneratorNameFirst() ..
+					" " .. exports['sandbox-base']:GeneratorNameLast(),
+				SID = exports['sandbox-base']:SequenceGet("Character"),
+				Vehicle = exports['sandbox-vehicles']:RandomName(),
+			}
+			currentMeta = exports.ox_inventory:UpdateMetaData(source, slot.Slot, updatingMetaData)
 		end
 
 		if not currentMeta.Vehicle then
 			currentMeta.Vehicle = exports['sandbox-vehicles']:RandomName()
 
-			exports.ox_inventory:UpdateMetaData(iitemData.id, {
+			exports.ox_inventory:UpdateMetaData(source, slot.id, {
 				Vehicle = currentMeta.Vehicle
 			})
 		end
@@ -158,21 +173,26 @@ function RegisterItemUses()
 						return
 					end
 					if not vehicle:GetData("FakePlate") then
-						vehicle:SetData("FakePlate", currentMeta.Plate)
-						vehicle:SetData("FakePlateData", currentMeta)
+					    local currentProps = vehicle:GetData("Properties") or {}
 
-						SetVehicleNumberPlateText(veh, currentMeta.Plate)
-						vehState.FakePlate = currentMeta.Plate
-
-						exports['sandbox-vehicles']:OwnedForceSave(vehState.VIN)
-
-						exports.ox_inventory:RemoveSlot(itemData.Owner, itemData.Name, 1, itemData.Slot,
-							itemData.invType)
-
-						exports['sandbox-hud']:Notification(source, "success", "Fake Plate Installed")
+					    if not currentProps.FakePlate then
+					        currentProps.FakePlate = currentMeta.Plate
+					    end
+					
+					    vehicle:SetData("FakePlate", 1)
+					    vehicle:SetData("Properties", currentProps)
+					    vehicle:SetData("FakePlateData", currentMeta)
+					
+					    SetVehicleNumberPlateText(veh, currentMeta.Plate)
+					    vehState.FakePlate = currentMeta.Plate
+					
+					    exports['sandbox-vehicles']:OwnedForceSave(vehState.VIN)
+					
+					    exports.ox_inventory:RemoveSlot(slot.Owner, slot.Name, 1, slot.Slot, slot.invType)
+					
+					    exports['sandbox-hud']:Notification(source, "success", "Fake Plate Installed")
 					else
-						exports['sandbox-hud']:Notification(source, "error",
-							"A Fake Plate is Already Installed")
+					    exports['sandbox-hud']:Notification(source, "error", "A Fake Plate is Already Installed")
 					end
 				end
 			end)

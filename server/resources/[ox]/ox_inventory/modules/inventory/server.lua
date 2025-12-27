@@ -138,7 +138,7 @@ local function loadInventoryData(data, player, ignoreSecurityChecks)
 
                 for i = 1, #vehicles do
                     local vehicle = vehicles[i]
-                    local _plate = GetVehicleNumberPlateText(vehicle)
+                    local _plate = Entity(vehicle).state.VIN
 
                     if _plate:find(plate) then
                         entity = vehicle
@@ -431,6 +431,7 @@ function Inventory.SetSlot(inv, item, count, metadata, slot)
 end
 
 local Items = require 'modules.items.server'
+local SlotRestrictions = require 'modules.slotRestrictions.server'
 
 CreateThread(function()
     Inventory.accounts = server.accounts
@@ -1222,6 +1223,12 @@ function Inventory.AddItem(inv, item, count, metadata, slot, cb)
     metadata = assertMetadata(metadata)
 
     if slot then
+        if inv.type == 'player' and slot >= 1 and slot <= 9 then
+            if not SlotRestrictions.canItemBePlacedInSlot(item.name, slot) then
+                return false, 'slot_restricted'
+            end
+        end
+        
         local slotData = inv.items[slot]
         slotMetadata, slotCount = Items.Metadata(inv.id, item, metadata and table.clone(metadata) or {}, count)
 
@@ -1260,6 +1267,10 @@ function Inventory.AddItem(inv, item, count, metadata, slot, cb)
         if not toSlot and inv.type == 'player' then
             for i = 1, 9 do
                 local slotData = items[i]
+                
+                if not SlotRestrictions.canItemBePlacedInSlot(item.name, i) then
+                    goto continue
+                end
 
                 if item.stack and slotData ~= nil and slotData.name == item.name and matchesExcludingDurability(slotData.metadata, slotMetadata) then
                     toSlot = i
@@ -1279,6 +1290,8 @@ function Inventory.AddItem(inv, item, count, metadata, slot, cb)
                 elseif not toSlot and not slotData then
                     toSlot = i
                 end
+                
+                ::continue::
             end
         end
     end

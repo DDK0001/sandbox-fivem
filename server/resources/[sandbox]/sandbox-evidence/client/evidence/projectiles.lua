@@ -5,9 +5,16 @@ local function generateRandomness()
     return math.random(-145, 145) / 100
 end
 
-AddEventHandler('Weapons:Client:SwitchedWeapon', function(weapon, weaponData, weaponItemData)
-    if weapon and weaponItemData and weaponItemData.gun then
-        StartHoldingWeapon(weapon, weaponData, weaponItemData)
+AddEventHandler('ox_inventory:currentWeapon', function(currentWeapon)
+    if currentWeapon then
+        local weapon = currentWeapon.name
+        local weaponData = currentWeapon.metadata or {}
+        
+        if weapon and currentWeapon.metadata and currentWeapon.metadata.durability then
+            StartHoldingWeapon(weapon, weaponData, currentWeapon)
+        else
+            StopHoldingWeapon()
+        end
     else
         StopHoldingWeapon()
     end
@@ -16,14 +23,19 @@ end)
 function StartHoldingWeapon(weapon, weaponData, weaponItemData)
     currentWeapon = weapon
     currentWeaponData = weaponData
-    currentWeaponAmmo = weaponItemData.ammoType or 'UNKNOWN'
+
+    local ammoItem = weaponItemData.ammo or weaponItemData.ammoname or weaponItemData.ammoType
+    if ammoItem and type(ammoItem) == "string" then
+        currentWeaponAmmo = string.upper(string.gsub(ammoItem, "-", "_"))
+    else
+        currentWeaponAmmo = 'UNKNOWN'
+    end
 
     if not hasWeapon then
         hasWeapon = true
         CreateThread(function()
             while hasWeapon do
                 if IsPedShooting(LocalPlayer.state.ped) then
-                    -- Generate Randomness (Simulate Dropping and make sure they don't all stack ontop of eachother)
                     local casingPosition = GetOffsetFromEntityInWorldCoords(LocalPlayer.state.ped, generateRandomness(),
                         generateRandomness(), VEHICLE_INSIDE and 0.0 or -0.9)
 
@@ -34,8 +46,9 @@ function StartHoldingWeapon(weapon, weaponData, weaponItemData)
                         data = {
                             weapon = {
                                 name = currentWeapon,
-                                serial = currentWeaponData.MetaData.SerialNumber or
-                                    currentWeaponData.MetaData.ScratchedSerialNumber,
+                                serial = currentWeaponData.serial or 
+                                    currentWeaponData.SerialNumber or
+                                    currentWeaponData.ScratchedSerialNumber,
                                 ammoType = currentWeaponAmmo,
                                 ammoTypeName = _ammoNames[currentWeaponAmmo],
                             },
@@ -66,8 +79,9 @@ function StartHoldingWeapon(weapon, weaponData, weaponItemData)
                                 data = {
                                     weapon = {
                                         name = currentWeapon,
-                                        serial = currentWeaponData.MetaData.SerialNumber or
-                                            currentWeaponData.MetaData.ScratchedSerialNumber,
+                                        serial = currentWeaponData.serial or 
+                                            currentWeaponData.SerialNumber or
+                                            currentWeaponData.ScratchedSerialNumber,
                                         ammoType = currentWeaponAmmo,
                                         ammoTypeName = _ammoNames[currentWeaponAmmo],
                                     },
